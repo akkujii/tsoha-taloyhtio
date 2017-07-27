@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/akkujii/tsoha-taloyhtio/issues"
   },
-  "homepage": "https://github.com/akkujii/tsoha-taloyhtio#readme"
+  "homepage": "https://github.com/akkujii/tsoha-taloyhtio#readme",
+  "dependencies": {
+    "node-mariadb": "^0.1.1"
+  }
 }
