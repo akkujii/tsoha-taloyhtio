@@ -1,0 +1,22 @@
+{
+  "name": "tsoha-taloyhtio",
+  "version": "1.0.0",
+  "description": "[linkki aiheeseen](http://advancedkittenry.github.io/suunnittelu_ja_tyoymparisto/aiheet/Taloyhtion_palvelut.html)",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akkujii/tsoha-taloyhtio.git"
+  },
+  "author": "Jukka Peinola",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/akkujii/tsoha-taloyhtio/issues"
+  },
+  "homepage": "https://github.com/akkujii/tsoha-taloyhtio#readme"
+}
