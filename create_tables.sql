@@ -67,10 +67,3 @@ CREATE PROCEDURE luoaikaraotpaivalle(res int, pvm datetime)
 //
 
 DELIMITER ;
-
-
-INSERT INTO Resurssi
-	(kayttoaikaalkaa, kayttoaikapaattyy, varausyksikko, resurssinnimi, hinta) VALUES
-	('150000', '230000', '10000', 'sauna', '3.84')
-;
-
