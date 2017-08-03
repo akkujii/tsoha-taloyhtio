@@ -3,10 +3,10 @@
 CREATE TABLE Resurssi (
 	id int NOT NULL AUTO_INCREMENT,
 	PRIMARY KEY (id),
+	resurssinnimi varchar(32),			# resurssin nimi (sauna, pyykkitupa jne.)
 	kayttoaikaalkaa TIME,				# oletusarvoinen kellonaika jolloin on mahdollista tehdä ensimmäinen varaus
 	kayttoaikapaattyy TIME,				# oletusarvoinen kellonaika jonka jälkeen ei ole enää mahdollista tehdä varauksia
 	varausyksikko TIME,					# varauksen kesto minuutteina
-	resurssinnimi varchar(8),			# resurssin nimi (sauna, pyykkitupa jne.)
 	hinta DECIMAL(4,2)					# varausyksikön hinta
 );
 
@@ -14,9 +14,9 @@ CREATE TABLE Aikarako (
 	id int NOT NULL AUTO_INCREMENT,
 	PRIMARY KEY (id),
 	resurssi_id int,
-	aika DATETIME,
-	kesto time,
-	FOREIGN KEY (resurssi_id) REFERENCES Resurssi(id) ON DELETE CASCADE
+	FOREIGN KEY (resurssi_id) REFERENCES Resurssi(id) ON DELETE CASCADE,
+	ajankohta DATETIME,
+	kesto time	
 );
 
 CREATE TABLE Varaus (
@@ -34,25 +34,22 @@ CREATE TABLE Varaus (
 CREATE TABLE Kayttaja ( 
 	id int NOT NULL AUTO_INCREMENT,
 	nimi varchar(64),
+	kayttajatunnus varchar(32),
 	salasana varchar(64),
-	asunto varchar(64),
+	asunto varchar(64)
 );
 
 CREATE TABLE Lasku (
 	id int NOT NULL AUTO_INCREMENT,
 	PRIMARY KEY (id),
 	maksettu boolean,
-	viitenumero 
+	summa decimal(7,2),
+	viitenumero int,
+	erapaiva DATE
 );
 
 # luo annetulle päivämäärälle määrä aikarakoja
-# ensimmäinen mahdollinen iakarako on resurssi-taulun kattoaikaalkaa-sarake
-# 
-
-SET @takaraja = (SELECT kayttoaikapaattyy FROM Resurssi WHERE id = 2); 
-SET @i = (SELECT kayttoaikaalkaa FROM Resurssi WHERE id = 2);
-SET @incr = (SELECT varausyksikko FROM Resurssi WHERE id = 2);
-
+# ensimmäinen mahdollinen aikarako on resurssi-taulun kattoaikaalkaa-sarake
 
 delimiter //
 
@@ -62,7 +59,7 @@ CREATE PROCEDURE luoaikaraotpaivalle(res int, pvm datetime)
 	SET @i = ADDTIME(pvm, (SELECT kayttoaikaalkaa FROM Resurssi WHERE id = 2));
 	SET @incr = (SELECT varausyksikko FROM Resurssi WHERE id = 2);
     REPEAT
-    	INSERT INTO Aikarako (resurssi_id, aika, kesto) VALUES (res, @i, @incr);
+    	INSERT INTO Aikarako (resurssi_id, ajankohta, kesto) VALUES (res, @i, @incr);
     	SET @i = ADDTIME(@i, @incr);
     	UNTIL @i = @takaraja END REPEAT;
   END
@@ -70,46 +67,6 @@ CREATE PROCEDURE luoaikaraotpaivalle(res int, pvm datetime)
 
 DELIMITER ;
 
-
-
-CALL dorepeat(1000)//
-
-SELECT @x//
-+------+
-| @x   |
-+------+
-| 1001 |
-+------+
-
-
-
-
-SELECT ((SELECT varausyksikko FROM Resurssi WHERE id = 1) * 100);
-
-
-SET @i = ADDTIME
-
-
-delimiter //
-CREATE PROCEDURE lisaaaikaraotpaivalle(paiva int, resurssi int)
-	SELECT 
-	BEGIN
-		SET @I = 
-
-	END
-//
-
-CREATE PROCEDURE looppitesti(par int)
-	BEGIN
-	SET @X = "Hei";
-		SET @I = 0;
-		REPEAT
-			SELECT @X;
-			SET @I = @I + 1;
-		UNTIL @I  = 5 END REPEAT;
-	END
-
-# Testiaineisto
 
 INSERT INTO Resurssi
 	(kayttoaikaalkaa, kayttoaikapaattyy, varausyksikko, resurssinnimi, hinta) VALUES
