@@ -19,20 +19,9 @@ CREATE TABLE Aikarako (
 	kesto time	
 );
 
-CREATE TABLE Varaus (
-	id int NOT NULL AUTO_INCREMENT,
-	PRIMARY KEY (id),
-	tunnusluku varchar(4),
-	aikarako_id int,
-	FOREIGN KEY (aikarako_id) REFERENCES Aikarako(id) ON DELETE CASCADE,
-	varaaja_id int,
-	FOREIGN KEY (varaaja_id) REFERENCES Kayttaja(id) ON DELETE CASCADE,
-	lasku_id int,
-	FOREIGN KEY (lasku_id) REFERENCES Lasku(id) 
-);
-
 CREATE TABLE Kayttaja ( 
 	id int NOT NULL AUTO_INCREMENT,
+	PRIMARY KEY (id),
 	nimi varchar(64),
 	kayttajatunnus varchar(32),
 	salasana varchar(64),
@@ -46,6 +35,18 @@ CREATE TABLE Lasku (
 	summa decimal(7,2),
 	viitenumero int,
 	erapaiva DATE
+);
+
+CREATE TABLE Varaus (
+	id int NOT NULL AUTO_INCREMENT,
+	PRIMARY KEY (id),
+	tunnusluku varchar(4),
+	aikarako_id int,
+	FOREIGN KEY (aikarako_id) REFERENCES Aikarako(id) ON DELETE CASCADE,
+	varaaja_id int,
+	FOREIGN KEY (varaaja_id) REFERENCES Kayttaja(id) ON DELETE CASCADE,
+	lasku_id int,
+	FOREIGN KEY (lasku_id) REFERENCES Lasku(id) 
 );
 
 # luo annetulle päivämäärälle määrä aikarakoja
