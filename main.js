@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+var bodyParser = require('body-parser')
 app.set('view engine', 'pug')
 
 // var toiminnot = ['Tee yksittäinen varaus', 'Varaa vakiokaika', 'Muokkaa varauksia', 
