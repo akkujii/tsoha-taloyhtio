@@ -1,6 +1,7 @@
-- var toiminnot = ['Yksittäiset varaukset', 'Vakioajat', 'Yhteenvedot ja laskut', 'Salasanan vaihto',' Kirjaudu ulos']
+// - var toiminnot = ['Yksittäiset varaukset', 'Varaa vakioaika', 'Muokkaa varauksia', 'Yhteenveto varauksista', 'Salasanan vaihto',' Kirjaudu ulos'];
 
-h1 Päävalikko
+h1 Resurssit
 
-each toiminto in toiminnot.length ? values : ['Päävalikkoa ei pystytä muodostamaan']
-	p #toiminto
+each resurssi in resurssit.length ? resurssit : ['Valikkoa ei pystytä muodostamaan']
+	button #{resurssi}
+	br

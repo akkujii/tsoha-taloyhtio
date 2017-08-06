@@ -1,0 +1,8 @@
+h1 #{teksti}
+
+form(action='/testi', method='get')
+	each toiminto in toiminnot.length ? toiminnot : ['Valikkoa ei pystytä muodostamaan']
+		input(id=toiminto.id, type='submit', name='submit', value=toiminto.id)
+		br
+//		input(type='submit', id=toiminto.id, value='toiminto.toiminto')
+		br
