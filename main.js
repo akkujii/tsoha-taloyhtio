@@ -1,12 +1,15 @@
 const express = require('express')
 const app = express()
-var bodyParser = require('body-parser')
+const bodyParser = require('body-parser')
 app.set('view engine', 'pug')
 
 // var toiminnot = ['Tee yksittäinen varaus', 'Varaa vakiokaika', 'Muokkaa varauksia', 
 //				 'Varausten yhteenveto', 'Salasanan vaihto', 'Kirjaudu ulos']
 
 var toiminnot = []
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }))
 
 toiminnot.push({toiminto: 'Tee yksittäinen varaus', id: '1'})
 toiminnot.push({toiminto: 'Varaa vakioaika', id: '2'})
@@ -24,8 +27,8 @@ app.get('/', function (req, res) {
  	res.render('valikko', {teksti: 'Tervetuloa', toiminnot})
 })
 
-app.get('/testi', function (req, res) {
- 	console.log(req.body.id)
+app.post('/testi', function (req, res) {
+ 	console.log(req.body.sisalto)
 })
 
 app.get('/resurssit', function (req, res) {
