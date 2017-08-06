@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/akkujii/tsoha-taloyhtio#readme",
   "dependencies": {
+    "express": "^4.15.3",
     "mariasql": "^0.2.6",
     "node-mariadb": "^0.1.1"
   }
