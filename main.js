@@ -31,6 +31,10 @@ app.post('/testi', function (req, res) {
  	console.log(req.body.sisalto)
 })
 
+app.get('/yksittaisvaraus', function (req, res) {
+	res.render('valikko', { teksti: 'Ysittäisvaraus: valitse resurssi', toiminnot: resurssit })
+})
+
 app.get('/resurssit', function (req, res) {
 	res.render('valikko', { teksti: 'Resurssit', toiminnot: resurssit })
 })
