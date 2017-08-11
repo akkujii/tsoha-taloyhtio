@@ -8,10 +8,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
 
 var c  = new Client({
-	host: 'enkerro',
-	user: 'enkerro',
-	password: 'enkerro',
-	db: 'enkerro'
+	host: process.env.HOST,
+	user: process.env.USER,
+	password: process.env.PASSWORD,
+	db: process.env.DB
 });
 
 var toiminnot = []
