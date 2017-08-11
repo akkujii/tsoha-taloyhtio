@@ -1,7 +1,23 @@
-// - var toiminnot = ['Yksittäiset varaukset', 'Varaa vakioaika', 'Muokkaa varauksia', 'Yhteenveto varauksista', 'Salasanan vaihto',' Kirjaudu ulos'];
+- var sauna = {id: 1, resurssinnimi: 'Sauna', kayttoaikalkaa: '16:00', kayttoaikapaattyy: '23:00', varausyksikko: 60, hinta: 2.10 };
+- var pyykkitupa = {id: 2, resurssinnimi: 'Pyykkitupa', kayttoaikalkaa: '06:00', kayttoaikapaattyy: '23:00', varausyksikko: 60, hinta: 1.85 };
+- var resurssit = [sauna, pyykkitupa];
+
 
 h1 Resurssit
 
-each resurssi in resurssit.length ? resurssit : ['Valikkoa ei pystytä muodostamaan']
-	button #{resurssi}
-	br
+table
+	tr
+		th Id
+		th Resurssin nimi
+		th Käyttöaika alkaa
+		th Käyttöaika päättyy
+		th Varausyksikkö
+		th Hinta
+	each resurssi in resurssit
+		tr
+			td #{resurssi.id}
+			td #{resurssi.resurssinnimi}
+			td #{resurssi.kayttoaikalkaa}
+			td #{resurssi.kayttoaikapaattyy}
+			td #{resurssi.varausyksikko}
+			td #{resurssi.hinta}
