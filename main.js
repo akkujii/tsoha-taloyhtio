@@ -33,11 +33,12 @@ app.get('/', function (req, res) {
  	console.log('Haetaan rivit');
  	//var resurssit = getAll();
  	
- 	c.query('SELECT * FROM Resurssi', function(err, rows) {
-	if (err)
-		throw err
-	res.render('resurssit', {resurssit : rows});
-	})
+ 	//c.query('SELECT * FROM Resurssi', function(err, rows) {
+	//if (err)
+	//	throw err
+	//res.render('resurssit', {resurssit : rows});
+	//})
+	res.render('resurssit', {resurssit : resurssit});
 	console.log('allResurssit kutsuttu')
 })
 
