@@ -1,16 +1,20 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
+var Client = require('mariasql')
+
 app.set('view engine', 'pug')
-
-// var toiminnot = ['Tee yksittäinen varaus', 'Varaa vakiokaika', 'Muokkaa varauksia', 
-//				 'Varausten yhteenveto', 'Salasanan vaihto', 'Kirjaudu ulos']
-
-var toiminnot = []
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
 
+var c  = new Client({
+	host: 'enkerro',
+	user: 'enkerro',
+	password: 'enkerro',
+	db: 'enkerro'
+});
+
+var toiminnot = []
 toiminnot.push({toiminto: 'Tee yksittäinen varaus', id: '1'})
 toiminnot.push({toiminto: 'Varaa vakioaika', id: '2'})
 toiminnot.push({toiminto: 'Muokkaa varauksia', id: '3'})
@@ -18,14 +22,31 @@ toiminnot.push({toiminto: 'Varausten yhteenveto', id: '4'})
 toiminnot.push({toiminto: 'Salasanan vaihto', id: '5'})
 toiminnot.push({toiminto: 'Kirjaudu ulos', id: '6'})
 
-var resurssit = ['Sauna', 'Pyykkitupa']
+var sauna = {id: 1, resurssinnimi: 'Sauna', kayttoaikalkaa: '16:00', kayttoaikapaattyy: '23:00', varausyksikko: 60, hinta: 2.10 };
+var pyykkitupa = {id: 2, resurssinnimi: 'Pyykkitupa', kayttoaikalkaa: '06:00', kayttoaikapaattyy: '23:00', varausyksikko: 60, hinta: 1.85 };
+var resurssit = [sauna, pyykkitupa]
 
 var kellonajat = ['15:00', '16:00', '17:00', '18:00']
 
-
 app.get('/', function (req, res) {
- 	res.render('valikko', {teksti: 'Tervetuloa', toiminnot})
+ 	//res.render('valikko', {teksti: 'Tervetuloa', toiminnot})
+ 	console.log('Haetaan rivit');
+ 	//var resurssit = getAll();
+ 	
+ 	c.query('SELECT * FROM Resurssi', function(err, rows) {
+	if (err)
+		throw err
+	res.render('resurssit', {resurssit : rows});
+	})
+	console.log('allResurssit kutsuttu')
 })
+
+function getAll() {
+	var rivit;
+	console.log("[getAll] kutsuttu")
+	
+	return rivit;
+}
 
 app.post('/testi', function (req, res) {
  	console.log(req.body.sisalto)
