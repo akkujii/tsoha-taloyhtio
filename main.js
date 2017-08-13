@@ -22,6 +22,11 @@ toiminnot.push({toiminto: 'Varausten yhteenveto', id: '4'})
 toiminnot.push({toiminto: 'Salasanan vaihto', id: '5'})
 toiminnot.push({toiminto: 'Kirjaudu ulos', id: '6'})
 
+var ekapaiva = {id: 1, ajankohta: '14.8.2017'}
+var tokapaiva = {id: 2, ajankohta: '15.8.2017'}
+var kolmaspaiva = {id: 3, ajankohta: '16.8.2017'}
+var aikaraot = [ekapaiva, tokapaiva, kolmaspaiva]
+
 var sauna = {id: 1, resurssinnimi: 'Sauna', kayttoaikalkaa: '16:00', kayttoaikapaattyy: '23:00', varausyksikko: 60, hinta: 2.10 };
 var pyykkitupa = {id: 2, resurssinnimi: 'Pyykkitupa', kayttoaikalkaa: '06:00', kayttoaikapaattyy: '23:00', varausyksikko: 60, hinta: 1.85 };
 var resurssit = [sauna, pyykkitupa]
@@ -49,16 +54,25 @@ function getAll() {
 	return rivit;
 }
 
+app.get('/resurssit', function(req,res) {
+	res.render('resurssit')
+})
+
+app.get('/paivamaarat', function(req, res) {
+	res.render('paivamaarat')
+})
+
+app.get('/resurssi', function (req, res) {
+	console.log('[GET /resurssi} pyydetty: ' + req.query.id)
+	res.render('paivamaarat', {aikaraot: aikaraot, resurssi: sauna})
+}) 
+
 app.post('/testi', function (req, res) {
  	console.log(req.body.sisalto)
 })
 
 app.get('/yksittaisvaraus', function (req, res) {
 	res.render('valikko', { teksti: 'Ysittäisvaraus: valitse resurssi', toiminnot: resurssit })
-})
-
-app.get('/resurssit', function (req, res) {
-	res.render('valikko', { teksti: 'Resurssit', toiminnot: resurssit })
 })
 
 app.get('/kellonajat', function (req, res) {

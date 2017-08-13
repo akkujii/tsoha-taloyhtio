@@ -1,23 +1,12 @@
-//var sauna = {id: 1, resurssinnimi: 'Sauna', kayttoaikaalkaa: '16:00', kayttoaikapaattyy: '23:00', varausyksikko: 60, hinta: 2.10 };
-//var pyykkitupa = {id: 2, resurssinnimi: 'Pyykkitupa', kayttoaikalkaa: '06:00', kayttoaikapaattyy: '23:00', varausyksikko: 60, hinta: 1.85 };
-//- var resurssit = []
+- var sauna = {id: 1, resurssinnimi: 'sauna'}
+- var pyykkitupa = {id: 2, resurssinnimi: 'pyykkitupa'}
+- var resurssit = [sauna, pyykkitupa]
 
-
+html
+	title Rerurssit
 h1 Resurssit
-
-table
-	tr
-		th Id
-		th Resurssin nimi
-		th Käyttöaika alkaa
-		th Käyttöaika päättyy
-		th Varausyksikkö
-		th Hinta
+p Valitse haluttu resurssi:
+form(action='/resurssi', method='get')
 	each resurssi in resurssit
-		tr
-			td #{resurssi.id}
-			td #{resurssi.resurssinnimi}
-			td #{resurssi.kayttoaikaalkaa}
-			td #{resurssi.kayttoaikapaattyy}
-			td #{resurssi.varausyksikko}
-			td #{resurssi.hinta}
+		button(type='submit' name='id' value=resurssi.id) #{resurssi.resurssinnimi}
+		br
