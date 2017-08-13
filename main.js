@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 var Client = require('mariasql')
 var dbc = require('./dbcontroller')
 const env = require('dotenv').config()
+var async = require('async')
 
 app.set('view engine', 'pug')
 app.use(bodyParser.json());
@@ -36,30 +37,18 @@ var resurssit = [sauna, pyykkitupa]
 var kellonajat = ['15:00', '16:00', '17:00', '18:00']
 
 app.get('/', function (req, res) {
- 	//res.render('valikko', {teksti: 'Tervetuloa', toiminnot})
- 	console.log('Haetaan rivit');
- 	//var resurssit = getAll();
- 	
- 	//c.query('SELECT * FROM Resurssi', function(err, rows) {
-	//if (err)
-	//	throw err
-	//res.render('resurssit', {resurssit : rows});
-	//})
-	res.render('resurssit', {resurssit : resurssit});
-	console.log('allResurssit kutsuttu')
+ 	res.render('index')
 })
 
 app.get('/tietokanta', function(req, res) {
-	var a = dbc.getResurssit()
-	console.dir(a);
+	async.parallel({
+		getresurssit: function(callback) {
+			dbc.getResurssit()
+		},
+	}, function(err, results) {
+		console.dir('Täällä lukee: ' + results);
+	})
 })
-
-function getAll() {
-	var rivit;
-	console.log("[getAll] kutsuttu")
-	
-	return rivit;
-}
 
 app.get('/resurssit', function(req,res) {
 	res.render('resurssit')

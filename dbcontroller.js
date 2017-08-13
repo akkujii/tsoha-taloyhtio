@@ -13,7 +13,6 @@ exports.getResurssit = function() {
 	if (err)
 		throw err;
 	c.end();
-	console.log(rows)
 	return rows
 	});
 }
