@@ -2,6 +2,8 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 var Client = require('mariasql')
+var dbc = require('./dbcontroller')
+const env = require('dotenv').config()
 
 app.set('view engine', 'pug')
 app.use(bodyParser.json());
@@ -11,7 +13,7 @@ var c  = new Client({
 	host: process.env.HOST,
 	user: process.env.USER,
 	password: process.env.PASSWORD,
-	db: process.env.DB
+	db: process.env.DATABASE
 });
 
 var toiminnot = []
@@ -45,6 +47,11 @@ app.get('/', function (req, res) {
 	//})
 	res.render('resurssit', {resurssit : resurssit});
 	console.log('allResurssit kutsuttu')
+})
+
+app.get('/tietokanta', function(req, res) {
+	var a = dbc.getResurssit()
+	console.dir(a);
 })
 
 function getAll() {
