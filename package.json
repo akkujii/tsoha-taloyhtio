@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/akkujii/tsoha-taloyhtio#readme",
   "dependencies": {
+    "async": "^2.5.0",
     "body-parser": "^1.17.2",
     "dotenv": "^4.0.0",
     "express": "^4.15.3",
