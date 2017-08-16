@@ -8,11 +8,14 @@ var c  = new Client({
 	db: process.env.DB_DATABASE
 });
 
-exports.getResurssit = function() {
+exports.getResurssit = function(callback) {
+	console.log('getResurssit kutsuttu')
 	c.query('SELECT * FROM Resurssi', function(err, rows) {
 	if (err)
 		throw err;
 	c.end();
-	return rows
+	console.log(rows)
+	callback(rows)
+	console.log(rows)
 	});
 }

@@ -42,12 +42,10 @@ app.get('/', function (req, res) {
 })
 
 app.get('/tietokanta', function(req, res) {
-	async.parallel({
-		getresurssit: function(callback) {
-			dbc.getResurssit()
-		},
-	}, function(err, results) {
-		console.dir('Täällä lukee: ' + results);
+	console.log('/tietokanta kutsuttu')
+	dbc.getResurssit(function(rows) {
+		console.log('Täällä lukee' + Object.getOwnPropertyNames(rows))
+		res.render('resurssit', {resurssit: rows})
 	})
 })
 
