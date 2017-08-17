@@ -12,10 +12,13 @@ exports.getResurssit = function(callback) {
 	console.log('getResurssit kutsuttu')
 	c.query('SELECT * FROM Resurssi', function(err, rows) {
 	if (err)
-		throw err;
+		throw err
 	c.end();
-	console.log(rows)
 	callback(rows)
-	console.log(rows)
 	});
 }
+
+exports.getPaivamaarat = function(resurssi_id, callback) {
+	console.log('getPaivamaarat kutsuttu resurssi_id:llä' + resurssi_id)
+
+})

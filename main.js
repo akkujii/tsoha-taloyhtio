@@ -43,14 +43,14 @@ app.get('/', function (req, res) {
 
 app.get('/tietokanta', function(req, res) {
 	console.log('/tietokanta kutsuttu')
+
+})
+
+app.get('/resurssit', function(req,res) {
 	dbc.getResurssit(function(rows) {
 		console.log('Täällä lukee' + Object.getOwnPropertyNames(rows))
 		res.render('resurssit', {resurssit: rows})
 	})
-})
-
-app.get('/resurssit', function(req,res) {
-	res.render('resurssit')
 })
 
 app.get('/paivamaarat', function(req, res) {

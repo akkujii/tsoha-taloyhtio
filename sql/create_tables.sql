@@ -15,7 +15,8 @@ CREATE TABLE Aikarako (
 	PRIMARY KEY (id),
 	resurssi_id int,
 	FOREIGN KEY (resurssi_id) REFERENCES Resurssi(id) ON DELETE CASCADE,
-	ajankohta DATETIME,
+	paivamaara DATE,
+	kellonaika TIME,
 	kesto time	
 );
 
@@ -54,13 +55,13 @@ CREATE TABLE Varaus (
 
 delimiter //
 
-CREATE PROCEDURE luoaikaraotpaivalle(res int, pvm datetime)
+CREATE PROCEDURE luoaikaraotpaivalle(res int, pvm date)
   BEGIN
-    SET @takaraja = ADDTIME(pvm, (SELECT kayttoaikapaattyy FROM Resurssi WHERE id = 2)); 
-	SET @i = ADDTIME(pvm, (SELECT kayttoaikaalkaa FROM Resurssi WHERE id = 2));
-	SET @incr = (SELECT varausyksikko FROM Resurssi WHERE id = 2);
+    SET @takaraja = ADDTIME(pvm, (SELECT kayttoaikapaattyy FROM Resurssi WHERE id = res)); 
+	SET @i = (SELECT kayttoaikaalkaa FROM Resurssi WHERE id = res);
+	SET @incr = (SELECT varausyksikko FROM Resurssi WHERE id = res);
     REPEAT
-    	INSERT INTO Aikarako (resurssi_id, ajankohta, kesto) VALUES (res, @i, @incr);
+    	INSERT INTO Aikarako (resurssi_id, paivamaara, kellonaika kesto) VALUES (res, pvm, @i, @incr);
     	SET @i = ADDTIME(@i, @incr);
     	UNTIL @i = @takaraja END REPEAT;
   END
