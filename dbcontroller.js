@@ -20,5 +20,12 @@ exports.getResurssit = function(callback) {
 
 exports.getPaivamaarat = function(resurssi_id, callback) {
 	console.log('getPaivamaarat kutsuttu resurssi_id:llä' + resurssi_id)
-
-})
+	c.query(('SELECT DISTINCT paivamaara, resurssi_id FROM Aikarako WHERE resurssi_id = ' + resurssi_id), function(err, rows) {
+	if (err)
+		throw err
+	c.end();
+	console.log('getpaivamaarat sai rivit: ' + rows)
+	console.log('rivillä 0 lukee:' + rows[0].paivamaara + ' resurssi_id on: ' + rows[0].resurssi_id)
+	callback(rows)
+	});
+}

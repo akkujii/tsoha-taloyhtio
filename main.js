@@ -41,11 +41,6 @@ app.get('/', function (req, res) {
  	res.render('index')
 })
 
-app.get('/tietokanta', function(req, res) {
-	console.log('/tietokanta kutsuttu')
-
-})
-
 app.get('/resurssit', function(req,res) {
 	dbc.getResurssit(function(rows) {
 		console.log('Täällä lukee' + Object.getOwnPropertyNames(rows))
@@ -53,13 +48,15 @@ app.get('/resurssit', function(req,res) {
 	})
 })
 
-app.get('/paivamaarat', function(req, res) {
-	res.render('paivamaarat')
+app.get('/muokkaaresurssia', function (req, res) {
+	res.render('muokkaaresurssia')
 })
 
 app.get('/resurssi', function (req, res) {
 	console.log('[GET /resurssi} pyydetty: ' + req.query.id)
-	res.render('paivamaarat', {aikaraot: aikaraot, resurssi: sauna})
+	dbc.getPaivamaarat(req.query.id, function(rows) {
+		res.render('paivamaarat', {aikaraot: rows})
+	})
 }) 
 
 app.post('/testi', function (req, res) {
@@ -71,6 +68,7 @@ app.get('/yksittaisvaraus', function (req, res) {
 })
 
 app.get('/kellonajat', function (req, res) {
+	console.log(req.query.id)
 	res.render('valikko', { teksti: 'Kellonajat', toiminnot: kellonajat})
 })
 

@@ -8,9 +8,9 @@ html
 	title Resurssin #{resurssi} vapaat päivämäärät
 h1 Resurssin #{resurssi} vapaat päivämäärät
 p Valitse päivämäärä
-form(action='/kellonajat', method='get')
+form(action='/aikaraot', method='get')
 	each aikarako in aikaraot
-		button(type='submit' name='id' value=aikarako.resurssi_id) #{aikarako.paivamaara}
+		button(type='submit' name='id' value=aikarako.id) #{aikarako.paivamaara}
 		br
 
 
