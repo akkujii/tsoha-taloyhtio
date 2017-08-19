@@ -57,11 +57,11 @@ delimiter //
 
 CREATE PROCEDURE luoaikaraotpaivalle(res int, pvm date)
   BEGIN
-    SET @takaraja = ADDTIME(pvm, (SELECT kayttoaikapaattyy FROM Resurssi WHERE id = res)); 
+    SET @takaraja = (SELECT kayttoaikapaattyy FROM Resurssi WHERE id = res); 
 	SET @i = (SELECT kayttoaikaalkaa FROM Resurssi WHERE id = res);
 	SET @incr = (SELECT varausyksikko FROM Resurssi WHERE id = res);
     REPEAT
-    	INSERT INTO Aikarako (resurssi_id, paivamaara, kellonaika kesto) VALUES (res, pvm, @i, @incr);
+    	INSERT INTO Aikarako (resurssi_id, paivamaara, kellonaika, kesto) VALUES (res, pvm, @i, @incr);
     	SET @i = ADDTIME(@i, @incr);
     	UNTIL @i = @takaraja END REPEAT;
   END

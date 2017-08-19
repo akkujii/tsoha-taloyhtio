@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
-var Client = require('mariasql')
+//var Client = require('mariasql')
 var dbc = require('./dbcontroller')
 const env = require('dotenv').config()
 var async = require('async')
@@ -10,13 +10,6 @@ app.set('port', (process.env.PORT || 5000));
 app.set('view engine', 'pug')
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
-
-var c  = new Client({
-	host: process.env.HOST,
-	user: process.env.USER,
-	password: process.env.PASSWORD,
-	db: process.env.DATABASE
-});
 
 var toiminnot = []
 toiminnot.push({toiminto: 'Tee yksittäinen varaus', id: '1'})

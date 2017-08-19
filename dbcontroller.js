@@ -9,23 +9,26 @@ var c  = new Client({
 });
 
 exports.getResurssit = function(callback) {
-	console.log('getResurssit kutsuttu')
+	console.log('[getResurssit] kutsuttu')
 	c.query('SELECT * FROM Resurssi', function(err, rows) {
 	if (err)
 		throw err
 	c.end();
+	console.log('[getResurssit] tietokantayhteys katkaistu')
 	callback(rows)
 	});
 }
 
 exports.getPaivamaarat = function(resurssi_id, callback) {
-	console.log('getPaivamaarat kutsuttu resurssi_id:llä' + resurssi_id)
+	console.log('[getPaivamaarat] kutsuttu resurssi_id:llä' + resurssi_id)
 	c.query(('SELECT DISTINCT paivamaara, resurssi_id FROM Aikarako WHERE resurssi_id = ' + resurssi_id), function(err, rows) {
 	if (err)
 		throw err
-	c.end();
+	c.end()
+	console.log('[getPaivamaarat] tietokantayhteys päätetty')
 	console.log('getpaivamaarat sai rivit: ' + rows)
 	console.log('rivillä 0 lukee:' + rows[0].paivamaara + ' resurssi_id on: ' + rows[0].resurssi_id)
+	console.log('[getPaivamaarat] kutsutaan callback-funktiota')
 	callback(rows)
 	});
 }

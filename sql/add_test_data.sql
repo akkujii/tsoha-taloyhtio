@@ -1,7 +1,7 @@
 INSERT INTO Resurssi
 	(kayttoaikaalkaa, kayttoaikapaattyy, varausyksikko, resurssinnimi, hinta) VALUES
-	('150000', '230000', '10000', 'sauna', '3.84'),
-	('60000', '220000', '10000', 'pyykkitupa', '1.50')
+	('150000', '230000', '10000', 'Sauna', '3.84'),
+	('60000', '220000', '10000', 'Pyykkitupa', '1.50')
 ;
 
 # luodaan saunalle aikarakoja
@@ -13,6 +13,8 @@ CALL luoaikaraotpaivalle(1, '2017-08-7');
 CALL luoaikaraotpaivalle(2, '2017-08-5');
 CALL luoaikaraotpaivalle(2, '2017-08-6');
 CALL luoaikaraotpaivalle(2, '2017-08-7');
+CALL luoaikaraotpaivalle(2, '2017-08-8');
+CALL luoaikaraotpaivalle(2, '2017-08-9');
 
 # luodaan käyttäjiä
 INSERT INTO Kayttaja
