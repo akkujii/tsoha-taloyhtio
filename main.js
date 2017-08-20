@@ -49,7 +49,8 @@ app.get('/muokkaaresurssia', function (req, res) {
 
 app.get('/resurssi', function (req, res) {
 	console.log('[GET /resurssi} pyydetty: ' + req.query.id)
-	dbc.getPaivamaarat(req.query.id, function(rows) {
+	dbc.getPaivamaarat(req.query.id, function(err, rows) {
+		console.log('/resurssi sai rivit joista ensimmainen on: ' + rows[1])
 		res.render('paivamaarat', {aikaraot: rows})
 	})
 }) 
