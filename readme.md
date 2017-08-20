@@ -1,5 +1,5 @@
 
-[linkki sovellukseen](https://guarded-falls-61272.herokuapp.com/)
+[linkki sovellukseen](https://safe-ridge-48858.herokuapp.com/)
 
 [linkki dokumentaatioon](https://github.com/akkujii/tsoha-taloyhtio/blob/master/doc/documentation.pdf)
 
