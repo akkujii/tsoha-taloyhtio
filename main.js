@@ -35,8 +35,10 @@ app.get('/', function (req, res) {
 })
 
 app.get('/resurssit', function(req,res) {
-	dbc.getResurssit(function(rows) {
-		console.log('Täällä lukee' + Object.getOwnPropertyNames(rows))
+	dbc.getResurssit(function(err, rows) {
+		if (err)
+			console.log('Tietokantaoperaatio epäonnistui')
+		//console.log('Täällä lukee' + Object.getOwnPropertyNames(rows))
 		res.render('resurssit', {resurssit: rows})
 	})
 })

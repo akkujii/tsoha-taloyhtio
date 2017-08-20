@@ -8,6 +8,17 @@ var c  = new Client({
 	db: process.env.DB_DATABASE
 });
 
+// exports.getResurssit = function(callback) {
+// 	console.log('[getResurssit] kutsuttu')
+// 	c.query('SELECT * FROM Resurssi', function(err, rows) {
+// 	if (err)
+// 		throw err
+// 	c.end();
+// 	console.log('[getResurssit] tietokantayhteys katkaistu')
+// 	callback(rows)
+// 	});
+// }
+
 exports.getResurssit = function(callback) {
 	console.log('[getResurssit] kutsuttu')
 	c.query('SELECT * FROM Resurssi', function(err, rows) {
@@ -15,7 +26,7 @@ exports.getResurssit = function(callback) {
 		throw err
 	c.end();
 	console.log('[getResurssit] tietokantayhteys katkaistu')
-	callback(rows)
+	callback(null, rows)
 	});
 }
 
