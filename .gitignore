@@ -2,3 +2,4 @@ websovellusfullstack.md
 .env
 envtest
 envtestt
+views/*.html
