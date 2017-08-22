@@ -1,25 +1,24 @@
 - var resurssi = {id: 1, resurssinnimi: 'sauna', kayttoaikaalkaa: '16:00', kayttoaikapaattyy: '23:00', varausyksikko: '01:00', hinta: 1.20}
 
 html
-	title Resurssin tietojen muokkaus
+	title Luo uusi resurssi
 h1 Muokkaa resurssin #{resurssi.resurssinnimi} tietoja
 
-form(action='/muokkaaresurssia', method='post')
-	input(type='hidden' name='id' value=resurssi.id)
+form(action='/luoresurssi', method='post')
 	label(for='resurssinnimi') resurssin nimi: 
-	input(type='text' name='resurssinnimi' value=resurssi.resurssinnimi)
+	input(type='text' name='resurssinnimi')
 	br
 	label(for='kayttoaikaalkaa') resurssin käyttöajan alkuajankohta: 
-	input(type='time' name='kayttoaikaalkaa' value=resurssi.kayttoaikaalkaa)
+	input(type='time' name='kayttoaikaalkaa')
 	br
 	label(for='kayttoaikapaattyy') resurssin käyttöajan alkuajankohta: 
-	input(type='time' name='kayttoaikapaattyy' value=resurssi.kayttoaikapaattyy)
+	input(type='time' name='kayttoaikapaattyy')
 	br
 	label(for='varausyksikko') varausyksikön kesto: 
-	input(type='time' name='varausyksikko' value=resurssi.varausyksikko)
+	input(type='time' name='varausyksikko')
 	br
 	label(for='hinta') varausyksikön hinta: 
-	input(type='number' step=0.01 name='hinta' value=resurssi.hinta)
+	input(type='number' step=0.01 name='hinta')
 	br
 	input(type='submit')
 

@@ -1,18 +1,15 @@
-//- var resurssi = {id: 1, resurssinnimi: 'sauna'}
-//- var ekapaiva = {id: 1, ajankohta: '14.8.2017'}
-//- var tokapaiva = {id: 2, ajankohta: '15.8.2017'}
-//- var kolmaspaiva = {id: 3, ajankohta: '16.8.2017'}
-//- var aikaraot = [ekapaiva, tokapaiva, kolmaspaiva]
+- var resurssi = 'sauna'
+- var aikaraot = [{id: 1, kellonaika: '15:00'}, {id: 2, kellonaika: '16:00'}, {id: 3, kellonaika: '17:00'}]
+- var id = 1
 
 html
-	title Resurssin #{resurssi} vapaat päivämäärät
-h1 Resurssin #{resurssi} vapaat päivämäärät
-p Valitse päivämäärä
-form(action='/aikaraot', method='get')
+	title Resurssin #{resurssi} vapaat kellonajat
+h1 Resurssin #{resurssi} vapaat kellonajat
+p Valitse kellonaika
+form(action='/vahvista', method='get')
 	each aikarako in aikaraot
-		button(type='submit' name='id' value=aikarako.id) #{aikarako.paivamaara}
+		button(type='submit' name='id' value=aikarako.id) #{aikarako.kellonaika}
 		br
-
 
 
 //	input(type='hidden' name='resurssi' value=resurssi.id)
