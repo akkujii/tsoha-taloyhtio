@@ -46,17 +46,34 @@ app.get('/aikarakolistaus', function (req, res) {
 	})
 })
 
+app.get('/vahvista', function(req, res) {
+	console.log('[/vahvista] pyydetty id:llä ' + req.query.id)
+	dbc.getAikarako(req.query.id, function(err, rows) {
+		console.log('saatiin rivit: ' + rows[0])
+		res.render('vahvista', {tiedot: rows[0]})
+	})
+})
+
+app.post('/vahvista', function(req, res) {
+	console.log('[POST /vahvista] kutsuttu, halutaan varata aikarako: ' + req.body.id)
+	// TODO toteuta dbcontrolleriin varauksen lisäys
+	res.render('vahvistettu')
+
+})
+
 app.get('/resurssi', function (req, res) {
 	console.log('[GET /resurssi} pyydetty: ' + req.query.id)
 	dbc.getPaivamaarat(req.query.id, function(err, rows) {
 		console.log('/resurssi sai rivit joista ensimmainen on: ' + rows[1])
-		res.render('paivamaarat', {aikaraot: rows})
+		res.render('paivamaarat', {aikaraot: rows, resurssi_id: req.query.id})
 	})
-}) 
+})
 
 app.get('/kellonajat', function (req, res) {
-	console.log(req.query.id)
-	res.render('valikko', { teksti: 'Kellonajat', toiminnot: kellonajat})
+	console.log('saatiin resurssi_id: ' + req.query.resurssi_id + ' ja päivämäärä ' + req.query.paivamaara)
+	dbc.getResurssinKellonajatPaivalle(req.query.resurssi_id, req.query.paivamaara, function(err, rows) {
+		res.render('kellonajat', {aikaraot: rows})
+	})
 })
 
 app.post('/testi', function (req, res) {

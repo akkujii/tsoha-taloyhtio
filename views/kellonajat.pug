@@ -1,10 +1,10 @@
-- var resurssi = 'sauna'
-- var aikaraot = [{id: 1, kellonaika: '15:00'}, {id: 2, kellonaika: '16:00'}, {id: 3, kellonaika: '17:00'}]
-- var id = 1
+//- var resurssi = 'sauna'
+//- var aikaraot = [{id: 1, kellonaika: '15:00'}, {id: 2, kellonaika: '16:00'}, {id: 3, kellonaika: '17:00'}]
+//- var id = 1
 
 html
-	title Resurssin #{resurssi} vapaat kellonajat
-h1 Resurssin #{resurssi} vapaat kellonajat
+	title Resurssin vapaat kellonajat
+h1 Resurssin vapaat kellonajat
 p Valitse kellonaika
 form(action='/vahvista', method='get')
 	each aikarako in aikaraot

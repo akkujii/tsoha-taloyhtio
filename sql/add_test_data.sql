@@ -5,16 +5,16 @@ INSERT INTO Resurssi
 ;
 
 # luodaan saunalle aikarakoja
-CALL luoaikaraotpaivalle(1, '2017-08-5');
-CALL luoaikaraotpaivalle(1, '2017-08-6');
-CALL luoaikaraotpaivalle(1, '2017-08-7');
+CALL luoaikaraotpaivalle(1, '2017-08-05');
+CALL luoaikaraotpaivalle(1, '2017-08-06');
+CALL luoaikaraotpaivalle(1, '2017-08-07');
 
 # luodaan pyykkituvalle aikarakoja
-CALL luoaikaraotpaivalle(2, '2017-08-5');
-CALL luoaikaraotpaivalle(2, '2017-08-6');
-CALL luoaikaraotpaivalle(2, '2017-08-7');
-CALL luoaikaraotpaivalle(2, '2017-08-8');
-CALL luoaikaraotpaivalle(2, '2017-08-9');
+CALL luoaikaraotpaivalle(2, '2017-08-05');
+CALL luoaikaraotpaivalle(2, '2017-08-06');
+CALL luoaikaraotpaivalle(2, '2017-08-07');
+CALL luoaikaraotpaivalle(2, '2017-08-08');
+CALL luoaikaraotpaivalle(2, '2017-08-09');
 
 # luodaan käyttäjiä
 INSERT INTO Kayttaja

@@ -47,6 +47,31 @@ exports.getPaivamaarat = function(resurssi_id, callback) {
 	})
 }
 
+exports.getAikarako = function(id, callback) {
+	console.log('[getPaivamaarat] kutsuttu resurssi_id:llä ' + id)
+	c.query(('SELECT Aikarako.id, Aikarako.paivamaara, Aikarako.kellonaika, Aikarako.kesto, Resurssi.resurssinnimi, Resurssi.hinta FROM Aikarako LEFT JOIN Resurssi ON Aikarako.resurssi_id = Resurssi.id WHERE Aikarako.id = ' + id), function(err, rows) {
+	if (err) {
+		console.log('Tuli virhe: ' + err)
+		throw err
+	}
+	c.end()
+	console.log('getAikarako saatiin rivit: ' + rows[0].resurssinnimi)
+	callback(null, rows)
+	})
+}
+
+exports.getResurssinKellonajatPaivalle = function(resurssi_id, paivamaara, callback) {
+	console.log('[getResurssinKellonajatPaivalle] kutsuttu resurssi_id:llä: ' + resurssi_id + ' ja päivämäärällä: ' + paivamaara)
+	c.query(('SELECT Aikarako.id, Aikarako.kellonaika, Aikarako.paivamaara FROM Aikarako LEFT JOIN Varaus ON Aikarako.id = Varaus.aikarako_id WHERE Varaus.aikarako_id IS NULL AND Aikarako.resurssi_id = ' + resurssi_id + ' AND Aikarako.paivamaara = "' + paivamaara + '"'), function(err, rows) {
+	if (err) {
+		console.log('Tuli virhe: ' + err)
+		throw err
+	}
+	c.end()
+	callback(null, rows)
+	})
+}
+
 exports.getKellonajat = function(resurssi_id, paivamaara, callback) {
 	console.log('[getKellonajat] kutsuttu paivamaaralla: ' + paivamaara + ' ja resurssi_id:llä: ' + resurssi_id)
 	c.query(('SELECT resurssi_id, kellonaika FROM Aikarako WHERE paivamaara =  ' + paivamaara + ' AND resurssi_id = ' + resurssi_id), function (err, rows) {
