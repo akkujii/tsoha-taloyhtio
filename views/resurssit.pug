@@ -3,10 +3,13 @@
 //- var resurssit = [sauna, pyykkitupa]
 
 html
-	title Rerurssit
-h1 Resurssit
-p Valitse haluttu resurssi:
-form(action='/resurssi', method='get')
-	each resurssi in resurssit
-		button(type='submit' name='id' value=resurssi.id) #{resurssi.resurssinnimi}
-		br
+	head
+		title Rerurssit
+		
+	body
+		h1 Resurssit
+		p Valitse haluttu resurssi:
+		form(action='/resurssi', method='get')
+			each resurssi in resurssit
+				button(type='submit' name='id' value=resurssi.id) #{resurssi.resurssinnimi}
+				br
