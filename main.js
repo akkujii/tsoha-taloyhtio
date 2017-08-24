@@ -16,6 +16,7 @@ app.get('/', function (req, res) {
 })
 
 app.get('/resurssit', function(req,res) {
+	console.log('[get /resurssit] pyydetty')
 	dbc.getResurssit(function(err, rows) {
 		if (err)
 			console.log('Tietokantaoperaatio epäonnistui')
