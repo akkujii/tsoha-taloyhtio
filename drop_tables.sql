@@ -1,5 +1,0 @@
-DROP TABLE Resurssi;
-DROP TABLE Aikarako;
-DROP TABLE Kayttaja;
-DROP TABLE Lasku;
-DROP TABLE Varaus;
