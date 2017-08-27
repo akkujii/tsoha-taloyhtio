@@ -40,6 +40,11 @@ app.post('/muokkaaresurssia', function (req, res) {
 	console.log(req.body)
 })
 
+app.get('/luokayttaja', function (req, res) {
+	console.log('[get /luokayttaja] kutsuttu')
+	res.render('luokayttaja')
+})
+
 app.get('/aikarakolistaus', function (req, res) {
 	console.log('/aikarakolistaus pyydetty')
 	dbc.getAllAikaraot(function(err, rows) {
@@ -73,12 +78,11 @@ app.get('/resurssi', function (req, res) {
 app.get('/kellonajat', function (req, res) {
 	console.log('saatiin resurssi_id: ' + req.query.resurssi_id + ' ja päivämäärä ' + req.query.paivamaara)
 	dbc.getResurssinKellonajatPaivalle(req.query.resurssi_id, req.query.paivamaara, function(err, rows) {
+		if(err) {
+			throw err
+		}
 		res.render('kellonajat', {aikaraot: rows})
 	})
-})
-
-app.post('/testi', function (req, res) {
- 	console.log(req.body.sisalto)
 })
 
 app.get('/yksittaisvaraus', function (req, res) {
