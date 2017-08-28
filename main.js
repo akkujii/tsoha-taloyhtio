@@ -1,7 +1,6 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
-//var Client = require('mariasql')
 var dbc = require('./dbcontroller')
 const env = require('dotenv').config()
 var async = require('async')
@@ -23,6 +22,17 @@ app.get('/resurssit', function(req,res) {
 		}
 		res.render('resurssit', {resurssit: rows})
 	})
+})
+
+app.get('/kirjaudu', function (req, res) {
+	res.render('kirjaudu')
+})
+
+app.post('/kirjaudu', function (req, res) {
+	console.log('Yritetään kirjautu salasanalla: '
+		+ req.body.username +
+		' ja käyttäjätunnuksella: ' 
+		+ req.body.password)
 })
 
 app.post('/luoresurssi', function (req, res) {
