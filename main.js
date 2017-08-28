@@ -18,8 +18,9 @@ app.get('/', function (req, res) {
 app.get('/resurssit', function(req,res) {
 	console.log('[get /resurssit] pyydetty')
 	dbc.getResurssit(function(err, rows) {
-		if (err)
+		if (err) {
 			console.log('Tietokantaoperaatio epäonnistui')
+		}
 		res.render('resurssit', {resurssit: rows})
 	})
 })
@@ -55,6 +56,9 @@ app.get('/aikarakolistaus', function (req, res) {
 app.get('/vahvista', function(req, res) {
 	console.log('[/vahvista] pyydetty id:llä ' + req.query.id)
 	dbc.getAikarako(req.query.id, function(err, rows) {
+		if(err) {
+			res.render('virhe')
+		}
 		console.log('saatiin rivit: ' + rows[0])
 		res.render('vahvista', {tiedot: rows[0]})
 	})
@@ -79,9 +83,12 @@ app.get('/kellonajat', function (req, res) {
 	console.log('saatiin resurssi_id: ' + req.query.resurssi_id + ' ja päivämäärä ' + req.query.paivamaara)
 	dbc.getResurssinKellonajatPaivalle(req.query.resurssi_id, req.query.paivamaara, function(err, rows) {
 		if(err) {
-			throw err
+			console.log('palautti virheen')
+			res.render('virhe')
+			return
+		}else{
+			res.render('kellonajat', {aikaraot: rows})		
 		}
-		res.render('kellonajat', {aikaraot: rows})
 	})
 })
 

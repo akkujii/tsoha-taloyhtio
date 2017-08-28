@@ -11,9 +11,10 @@ var c  = new Client({
 exports.getResurssit = function(callback) {
 	console.log('[getResurssit] kutsuttu')
 	c.query('SELECT * FROM Resurssi', function(err, rows) {
-	if (err)
+	if (err) {
 		console.log('[getResurssit] virhe: ' + error)
 		return err
+	}
 	c.end();
 	console.log('[getResurssit] tietokantayhteys katkaistu')
 	callback(null, rows)
@@ -23,9 +24,10 @@ exports.getResurssit = function(callback) {
 exports.getAllAikaraot = function(callback) {
 	console.log('[getAllAikaraot] kutsuttu')
 	c.query('SELECT resurssinnimi, paivamaara, kellonaika FROM Aikarako LEFT JOIN Resurssi ON Aikarako.resurssi_id = Resurssi.id', function(err, rows) {
-	if (err)
+	if (err) {
 		console.log('[getAllAikaraot] virhe: ' + error)
 		return err
+	}
 	c.end();
 	console.log('[getAllAikaraot] tietokantayhteys katkaistu')
 	callback(null, rows)
@@ -37,7 +39,7 @@ exports.getPaivamaarat = function(resurssi_id, callback) {
 	console.log('[getPaivamaarat] kutsuttu resurssi_id:llä ' + resurssi_id)
 	c.query(('SELECT DISTINCT paivamaara, resurssi_id FROM Aikarako WHERE resurssi_id = ' + resurssi_id), function(err, rows) {
 	if (err) {
-		console.log('[getPaivamaarat] Tuli virhe: ' + err)
+		console.log('[getPaivamaarat] virhe: ' + err)
 		return err
 	}
 	c.end()
@@ -49,8 +51,8 @@ exports.getAikarako = function(id, callback) {
 	console.log('[getPaivamaarat] kutsuttu resurssi_id:llä ' + id)
 	c.query(('SELECT Aikarako.id, Aikarako.paivamaara, Aikarako.kellonaika, Aikarako.kesto, Resurssi.resurssinnimi, Resurssi.hinta FROM Aikarako LEFT JOIN Resurssi ON Aikarako.resurssi_id = Resurssi.id WHERE Aikarako.id = ' + id), function(err, rows) {
 	if (err) {
-		console.log('Tuli virhe: ' + err)
-		throw err
+		console.log('[getAIkarako]  virhe: ' + err)
+		return err
 	}
 	c.end()
 	console.log('getAikarako saatiin rivit: ' + rows[0].resurssinnimi)
@@ -63,7 +65,7 @@ exports.getResurssinKellonajatPaivalle = function(resurssi_id, paivamaara, callb
 	c.query(('SELECT Aikarako.id, Aikarako.kellonaika, Aikarako.paivamaara FROM Aikarako LEFT JOIN Varaus ON Aikarako.id = Varaus.aikarako_id WHERE Varaus.aikarako_id IS NULL AND Aikarako.resurssi_id = ' + resurssi_id + ' AND Aikarako.paivamaara = "' + paivamaara + '"'), function(err, rows) {
 	if (err) {
 		console.log('[getResurssinKellonajatPaivalle] virhe: ' + err)
-		return err
+		callback(err, null)
 	}
 	c.end()
 	callback(null, rows)
