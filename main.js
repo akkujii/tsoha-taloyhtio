@@ -1,20 +1,37 @@
 const express = require('express')
 const app = express()
+var session = require('express-session')
 const bodyParser = require('body-parser')
 var dbc = require('./dbcontroller')
 const env = require('dotenv').config()
 var async = require('async')
-
 app.set('port', (process.env.PORT || 5000));
 app.set('view engine', 'pug')
+app.use(session({
+	secret: 'KLQR-541R-PSQslo5',
+	resave: true,
+	saveUninitialized: true
+}))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
 
+// Authentication & Authorization Middleware
+var auth = function(req, res, next) {
+	if (req.session && req.session.user === 'testikayttaja' && req.session.admin)
+		return next()
+	else
+		return res.send('Ei pääsyä (401) Sinun tulee olla kirjautunut järjestelmään')
+}
+
 app.get('/', function (req, res) {
+ 	res.render('kirjaudu')
+})
+
+app.get('/etusivu', auth, function (req, res) {
  	res.render('index')
 })
 
-app.get('/resurssit', function(req,res) {
+app.get('/resurssit', auth, function(req,res) {
 	console.log('[get /resurssit] pyydetty')
 	dbc.getResurssit(function(err, rows) {
 		if (err) {
@@ -24,46 +41,62 @@ app.get('/resurssit', function(req,res) {
 	})
 })
 
-app.get('/kirjaudu', function (req, res) {
-	res.render('kirjaudu')
-})
+// app.get('/kirjaudu', function (req, res) {
+// 	res.render('kirjaudu')
+// })
 
 app.post('/kirjaudu', function (req, res) {
-	console.log('Yritetään kirjautu salasanalla: '
-		+ req.body.username +
-		' ja käyttäjätunnuksella: ' 
-		+ req.body.password)
+	console.log('Yritetään kirjautu salasanalla: ' + req.body.username +' ja käyttäjätunnuksella: ' + req.body.password)
+	if(!req.body.username || !req.body.password) {
+		res.send('Käyttäjätunnusta tai salasanaa ei syötetty')
+	}else{
+		dbc.tunnistaKayttaja(req.body.username, req.body.password, function(err, sallittu) {
+			if(sallittu) {
+				req.session.user = req.body.username
+				req.session.admin = true
+				//res.send('Käyttäjätunnus ja salasana oikein kirjauduttiin sisään käyttäjällä')
+				res.render('index')
+			}else{
+				res.send('Ei pääsyä')
+			}
+		})
+	}
 })
 
-app.post('/luoresurssi', function (req, res) {
+app.get('/logout', function (req, res) {
+	req.session.destroy();
+	res.send('Uloskirjautuminen onnistui')
+})
+
+app.post('/luoresurssi', auth, function (req, res) {
 	console.log(req.body)
 })
 
-app.get('/luoresurssi', function (req, res) {
+app.get('/luoresurssi', auth, function (req, res) {
 	res.render('luoresurssi')
 })
 
-app.get('/muokkaaresurssia', function (req, res) {
+app.get('/muokkaaresurssia', auth, function (req, res) {
 	res.render('muokkaaresurssia')
 })
 
-app.post('/muokkaaresurssia', function (req, res) {
+app.post('/muokkaaresurssia', auth, function (req, res) {
 	console.log(req.body)
 })
 
-app.get('/luokayttaja', function (req, res) {
+app.get('/luokayttaja', auth, function (req, res) {
 	console.log('[get /luokayttaja] kutsuttu')
 	res.render('luokayttaja')
 })
 
-app.get('/aikarakolistaus', function (req, res) {
+app.get('/aikarakolistaus', auth, function (req, res) {
 	console.log('/aikarakolistaus pyydetty')
 	dbc.getAllAikaraot(function(err, rows) {
 		res.render('aikarakolistaus', {aikaraot: rows})
 	})
 })
 
-app.get('/vahvista', function(req, res) {
+app.get('/vahvista', auth, function(req, res) {
 	console.log('[/vahvista] pyydetty id:llä ' + req.query.id)
 	dbc.getAikarako(req.query.id, function(err, rows) {
 		if(err) {
@@ -74,14 +107,14 @@ app.get('/vahvista', function(req, res) {
 	})
 })
 
-app.post('/vahvista', function(req, res) {
+app.post('/vahvista', auth, function(req, res) {
 	console.log('[POST /vahvista] kutsuttu, halutaan varata aikarako: ' + req.body.id)
 	// TODO toteuta dbcontrolleriin varauksen lisäys
 	res.render('vahvistettu')
 
 })
 
-app.get('/resurssi', function (req, res) {
+app.get('/resurssi', auth, function (req, res) {
 	console.log('[GET /resurssi} pyydetty: ' + req.query.id)
 	dbc.getPaivamaarat(req.query.id, function(err, rows) {
 		console.log('/resurssi sai rivit joista ensimmainen on: ' + rows[1])
@@ -89,7 +122,7 @@ app.get('/resurssi', function (req, res) {
 	})
 })
 
-app.get('/kellonajat', function (req, res) {
+app.get('/kellonajat', auth, function (req, res) {
 	console.log('saatiin resurssi_id: ' + req.query.resurssi_id + ' ja päivämäärä ' + req.query.paivamaara)
 	dbc.getResurssinKellonajatPaivalle(req.query.resurssi_id, req.query.paivamaara, function(err, rows) {
 		if(err) {
@@ -100,10 +133,6 @@ app.get('/kellonajat', function (req, res) {
 			res.render('kellonajat', {aikaraot: rows})		
 		}
 	})
-})
-
-app.get('/yksittaisvaraus', function (req, res) {
-	res.render('valikko', { teksti: 'Ysittäisvaraus: valitse resurssi', toiminnot: resurssit })
 })
 
 app.listen(app.get('port'), function () {	

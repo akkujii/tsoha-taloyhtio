@@ -60,6 +60,15 @@ exports.getAikarako = function(id, callback) {
 	})
 }
 
+exports.tunnistaKayttaja = function(kayttajatunnus, salasana, callback) {
+	console.log('[tunnistaKayttaja] kutsuttu')
+	if(kayttajatunnus === 'testikayttaja' && salasana === 'foobar'){
+		callback(null, true)
+	}else{
+		callback(null, false)
+	}
+}
+
 exports.getResurssinKellonajatPaivalle = function(resurssi_id, paivamaara, callback) {
 	console.log('[getResurssinKellonajatPaivalle] kutsuttu resurssi_id:llä: ' + resurssi_id + ' ja päivämäärällä: ' + paivamaara)
 	c.query(('SELECT Aikarako.id, Aikarako.kellonaika, Aikarako.paivamaara FROM Aikarako LEFT JOIN Varaus ON Aikarako.id = Varaus.aikarako_id WHERE Varaus.aikarako_id IS NULL AND Aikarako.resurssi_id = ' + resurssi_id + ' AND Aikarako.paivamaara = "' + paivamaara + '"'), function(err, rows) {
