@@ -9,13 +9,13 @@ form(action='/luoresurssi', method='post')
 	input(type='text' name='resurssinnimi')
 	br
 	label(for='kayttoaikaalkaa') resurssin käyttöajan alkuajankohta: 
-	input(type='time' name='kayttoaikaalkaa')
+	input(type='time' name='kayttoaikaalkaa' step=900)
 	br
 	label(for='kayttoaikapaattyy') resurssin käyttöajan alkuajankohta: 
-	input(type='time' name='kayttoaikapaattyy')
+	input(type='time' name='kayttoaikapaattyy' step=900)
 	br
 	label(for='varausyksikko') varausyksikön kesto: 
-	input(type='time' name='varausyksikko')
+	input(type='time' name='varausyksikko' step=900)
 	br
 	label(for='hinta') varausyksikön hinta: 
 	input(type='number' step=0.01 name='hinta')

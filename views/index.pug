@@ -2,9 +2,10 @@ html
   head
     title= title
     link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css")
-    meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
+    meta(charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
 body
     h1 Tervetuloa
+    p Olet kirjautuneena käyttäjällä: #{kayttaja}
     p Taloyhtiön palvelut
     a(href='/resurssit') Varaa resurssi
     br
@@ -13,6 +14,8 @@ body
     a(href='/luoresurssi') Luo uusi resurssi
     br
     a(href='/aikarakolistaus') Listaa aikaraot
+    br
+    a(href='/omatvaraukset') Listaa/poista omat varaukseni
     br
     a(href='/logout') Kirjaudu ulos
     br

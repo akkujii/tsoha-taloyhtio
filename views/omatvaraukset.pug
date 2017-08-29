@@ -1,0 +1,20 @@
+//- var varaukset = [{id: 45, paivamaara: '2017-08-16', kellonaika: '20:00', resurssinnimi: 'sauna'}, {id: 23, paivamaara: '2017-08-19', kellonaika: '15:00', resurssinnimi: 'pyykkitupa'}, {id: 3, paivamaara: '2017-08-22', kellonaika: '22:00', resurssinnimi: 'sauna'}]
+html
+	head
+		title="Käyttäjän varaukset"
+	body
+		h1 Omat varaukset
+		table
+			tr
+				th resurssin nimi
+				th päivämäärä
+				th kellonaika
+				th poista
+			form(action='/poistavaraus' method='post')
+				each varaus in varaukset
+					tr
+						td #{varaus.resurssinnimi}
+						td #{varaus.paivamaara}
+						td #{varaus.kellonaika}
+						td 
+							button(type='submit' name='id' value=varaus.id) Poista
