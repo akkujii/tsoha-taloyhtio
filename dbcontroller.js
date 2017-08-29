@@ -62,16 +62,16 @@ exports.getAikarako = function(id, callback) {
 
 exports.tunnistaKayttaja = function(kayttajatunnus, salasana, callback) {
 	console.log('[tunnistaKayttaja] kutsuttu käyttäjätunnuksella ' + kayttajatunnus)
-	c.query(("SELECT salasana, kayttooikeus FROM Kayttaja WHERE kayttajatunnus = '" + kayttajatunnus + "'"), function(err, rows) {
+	c.query(("SELECT salasana, kayttooikeus, nimi FROM Kayttaja WHERE kayttajatunnus = '" + kayttajatunnus + "'"), function(err, rows) {
 	if (err) {
 		console.log('[tunnistaKayttaja] virhe: ' + err)
 		return err
 	}
 	c.end()
-	console.log('[tunnistaKayttaja] saatiin rivit: ' + rows[0].salasana + rows[0].kayttooikeus)
+	console.log('[tunnistaKayttaja] saatiin rivit: ' + rows[0].salasana + rows[0].kayttooikeus + rows[0].nimi)
 	if(rows[0].salasana === salasana) {
 		console.log('[tunnistaKayttaja] Salasana oikein')
-		callback(null, rows[0].kayttooikeus)
+		callback(null, rows)
 	}else{
 		console.log('[tunnistaKayttaja] Salasana väärin')
 		callback(null, null)
@@ -91,6 +91,35 @@ exports.tarkistaKayttajatunnusJaOikeus = function(kayttajatunnus, kayttooikeus, 
 	if(rows[0].kayttooikeus === kayttooikeus) {
 		callback(null, true)
 	}
+	})
+}
+
+exports.haeKayttajanVaraukset = function(kayttajatunnus, callback) {
+	console.log('[haeKayttajanVaraukset] kutsuttu käyttäjätunnuksella: '+ kayttajatunnus)
+	c.query(("SELECT Kayttaja.kayttajatunnus, Varaus.id, Aikarako.paivamaara, Aikarako.kellonaika, " + 
+		"Resurssi.resurssinnimi FROM Varaus " + 
+		"LEFT JOIN Kayttaja ON Varaus.varaaja_id = Kayttaja.id " +
+		"LEFT JOIN Aikarako ON Aikarako.id = Varaus.aikarako_id " +
+		"LEFT JOIN Resurssi ON Aikarako.resurssi_id = Resurssi.id " + 
+		"WHERE kayttajatunnus = '" + kayttajatunnus + "'"), 
+		function(err, rows) {
+		if (err) {
+			console.log('[haeKayttajanVaraukset] kysely epäonnistui: ' + err)
+			callback(null, null)
+		}
+		callback(null, rows)
+	})
+}
+
+exports.luoUusiResurssi = function(tiedot, callback) {
+	var kysely = 'INSERT INTO Resurssi (resurssinnimi, kayttoaikaalkaa, kayttoaikapaattyy, varausyksikko, hinta) VALUES ' + '("' + tiedot.resurssinnimi + '", "' + tiedot.kayttoaikaalkaa + '", "' + tiedot.kayttoaikapaattyy + '", "' + tiedot.varausyksikko + '", ' + tiedot.hinta + ')'
+	console.log('kysely näyttää tältä: '+ kysely)
+	c.query(kysely, function(err, rows) {
+    	if(err) {
+    		console.log('[luoUusiResurssi] resurssin luonti epäoinnistui')
+    		callback('virhe')
+    	}
+   		callback(null)
 	})
 }
 

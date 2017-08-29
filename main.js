@@ -15,14 +15,6 @@ app.use(session({
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
 
-// Authentication & Authorization Middleware
-// var auth = function(req, res, next) {
-// 	if (req.session && req.session.user === 'ilpo57' && req.session.kayttooikeus)
-// 		return next()
-// 	else
-// 		return res.send('Ei pääsyä (401) Sinun tulee olla kirjautunut järjestelmään')
-// }
-
 var auth = function(req, res, next) {
 	if(req.session) {
 		dbc.tarkistaKayttajatunnusJaOikeus(req.session.user, req.session.kayttooikeus, function(err, oikeus) {
@@ -33,10 +25,13 @@ var auth = function(req, res, next) {
 				console.log('[auth] else-haara: oikeus sai arvon: ' + oikeus)
 				return res.send('Ei pääsyä (401) Sinun tulee olla kirjautunut järjestelmään')
 			}
-		})		
+		})	
+
+	}else if(req.session.user == 'undefined'){
+		console.log('[auth] else-haara: oikeus sai arvon: ' + oikeus)
+		return res.send('Ei pääsyä (401) Sinun tulee olla kirjautunut järjestelmään')
 	}	
 }
-
 
 app.get('/', function (req, res) {
  	res.render('kirjaudu')
@@ -57,18 +52,22 @@ app.get('/resurssit', auth, function(req,res) {
 	})
 })
 
+app.get('/kirjaudu', auth, function(req,res) {
+	res.render('index', {kayttaja: req.session.user})
+})
+
 app.post('/kirjaudu', function (req, res) {
 	console.log('Yritetään kirjautu salasanalla: ' + req.body.username +' ja käyttäjätunnuksella: ' + req.body.password)
 	if(!req.body.username || !req.body.password) {
 		res.send('Käyttäjätunnusta tai salasanaa ei syötetty')
 	}else{
-		dbc.tunnistaKayttaja(req.body.username, req.body.password, function(err, kayttooikeus) {
-			if(kayttooikeus) {
+		dbc.tunnistaKayttaja(req.body.username, req.body.password, function(err, data) {
+			if(data) {
 				req.session.user = req.body.username
-				console.log('sessiota käyttää: ' + req.session.user)
-				req.session.kayttooikeus = kayttooikeus
-				console.log('sessiolla käyttöoikeus: ' + req.session.kayttooikeus)
-				res.render('index')
+				console.log('[/kirjaudu] sessiota käyttää: ' + req.session.user)
+				req.session.kayttooikeus = data[0].kayttooikeus
+				console.log('[/kirjaudu] sessiolla käyttöoikeus: ' + req.session.kayttooikeus)
+				res.render('index', {kayttaja: data[0].nimi})
 			}else{
 				res.send('Ei pääsyä')
 			}
@@ -84,6 +83,15 @@ app.get('/logout', function (req, res) {
 
 app.post('/luoresurssi', auth, function (req, res) {
 	console.log(req.body)
+	console.log('Pitäisi tulostua resurssin nimi: ' + req.body.resurssinnimi)
+	dbc.luoUusiResurssi(req.body, function(err) {
+		if(err) {
+			res.send('Resurssin luonti epäonnistui')
+		}else{
+			res.send('Resurssin luonti onnistui')
+		}
+	})
+
 })
 
 app.get('/luoresurssi', auth, function (req, res) {
@@ -126,6 +134,20 @@ app.post('/vahvista', auth, function(req, res) {
 	// TODO toteuta dbcontrolleriin varauksen lisäys
 	res.render('vahvistettu')
 
+})
+
+app.get('/omatvaraukset', auth, function (req, res) {
+	dbc.haeKayttajanVaraukset(req.session.user, function(err, rows) {
+		if(err) {
+			res.send('Varauksien haku epäonnistui')
+		}else{
+			res.render('omatvaraukset', {varaukset: rows})
+		}
+	})
+}) 
+
+app.post('/poistavaraus', function (req, res) {
+	console.log('[/poistavaraus] halutaan poistaa varaus: ' + req.body.id);
 })
 
 app.get('/resurssi', auth, function (req, res) {
