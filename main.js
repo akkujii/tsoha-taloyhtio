@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 // Authentication & Authorization Middleware
 var auth = function(req, res, next) {
-	if (req.session && req.session.user === 'testikayttaja' && req.session.admin)
+	if (req.session && req.session.user === 'ilpo57' && req.session.kayttooikeus)
 		return next()
 	else
 		return res.send('Ei pääsyä (401) Sinun tulee olla kirjautunut järjestelmään')
@@ -33,6 +33,7 @@ app.get('/etusivu', auth, function (req, res) {
 
 app.get('/resurssit', auth, function(req,res) {
 	console.log('[get /resurssit] pyydetty')
+	console.log('[get /resurssit] kyselee käyttäjä: ' + req.session.user)
 	dbc.getResurssit(function(err, rows) {
 		if (err) {
 			console.log('Tietokantaoperaatio epäonnistui')
@@ -41,20 +42,17 @@ app.get('/resurssit', auth, function(req,res) {
 	})
 })
 
-// app.get('/kirjaudu', function (req, res) {
-// 	res.render('kirjaudu')
-// })
-
 app.post('/kirjaudu', function (req, res) {
 	console.log('Yritetään kirjautu salasanalla: ' + req.body.username +' ja käyttäjätunnuksella: ' + req.body.password)
 	if(!req.body.username || !req.body.password) {
 		res.send('Käyttäjätunnusta tai salasanaa ei syötetty')
 	}else{
-		dbc.tunnistaKayttaja(req.body.username, req.body.password, function(err, sallittu) {
-			if(sallittu) {
+		dbc.tunnistaKayttaja(req.body.username, req.body.password, function(err, kayttooikeus) {
+			if(kayttooikeus) {
 				req.session.user = req.body.username
-				req.session.admin = true
-				//res.send('Käyttäjätunnus ja salasana oikein kirjauduttiin sisään käyttäjällä')
+				console.log('sessiota käyttää: ' + req.session.user)
+				req.session.kayttooikeus = kayttooikeus
+				console.log('sessiolla käyttöoikeus: ' + req.session.kayttooikeus)
 				res.render('index')
 			}else{
 				res.send('Ei pääsyä')

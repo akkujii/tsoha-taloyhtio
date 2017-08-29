@@ -62,19 +62,19 @@ exports.getAikarako = function(id, callback) {
 
 exports.tunnistaKayttaja = function(kayttajatunnus, salasana, callback) {
 	console.log('[tunnistaKayttaja] kutsuttu käyttäjätunnuksella ' + kayttajatunnus)
-	c.query(("SELECT salasana FROM Kayttaja WHERE kayttajatunnus = '" + kayttajatunnus + "'"), function(err, rows) {
+	c.query(("SELECT salasana, kayttooikeus FROM Kayttaja WHERE kayttajatunnus = '" + kayttajatunnus + "'"), function(err, rows) {
 	if (err) {
 		console.log('[tunnistaKayttaja] virhe: ' + err)
 		return err
 	}
 	c.end()
-	console.log('[tunnistaKayttaja] saatiin rivit: ' + rows[0].salasana)
+	console.log('[tunnistaKayttaja] saatiin rivit: ' + rows[0].salasana + rows[0].kayttooikeus)
 	if(rows[0].salasana === salasana) {
 		console.log('[tunnistaKayttaja] Salasana oikein')
-		callback(null, true)
+		callback(null, rows[0].kayttooikeus)
 	}else{
 		console.log('[tunnistaKayttaja] Salasana väärin')
-		callback(null, false)
+		callback(null, null)
 	}
 	})
 }
