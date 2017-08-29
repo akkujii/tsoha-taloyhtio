@@ -16,12 +16,27 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
 
 // Authentication & Authorization Middleware
+// var auth = function(req, res, next) {
+// 	if (req.session && req.session.user === 'ilpo57' && req.session.kayttooikeus)
+// 		return next()
+// 	else
+// 		return res.send('Ei pääsyä (401) Sinun tulee olla kirjautunut järjestelmään')
+// }
+
 var auth = function(req, res, next) {
-	if (req.session && req.session.user === 'ilpo57' && req.session.kayttooikeus)
-		return next()
-	else
-		return res.send('Ei pääsyä (401) Sinun tulee olla kirjautunut järjestelmään')
+	if(req.session) {
+		dbc.tarkistaKayttajatunnusJaOikeus(req.session.user, req.session.kayttooikeus, function(err, oikeus) {
+			if(oikeus) {
+				console.log('[auth] if-haara: oikeus sai arvon: ' + oikeus)
+				return next()
+			}else{
+				console.log('[auth] else-haara: oikeus sai arvon: ' + oikeus)
+				return res.send('Ei pääsyä (401) Sinun tulee olla kirjautunut järjestelmään')
+			}
+		})		
+	}	
 }
+
 
 app.get('/', function (req, res) {
  	res.render('kirjaudu')
@@ -62,6 +77,7 @@ app.post('/kirjaudu', function (req, res) {
 })
 
 app.get('/logout', function (req, res) {
+	console.log('[/logout] käyttäjä kirjautui ulos: ' + req.session.user)
 	req.session.destroy();
 	res.send('Uloskirjautuminen onnistui')
 })

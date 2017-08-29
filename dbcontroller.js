@@ -79,21 +79,21 @@ exports.tunnistaKayttaja = function(kayttajatunnus, salasana, callback) {
 	})
 }
 
-// exports.tunnistaKayttaja = function(kayttajatunnus, salasana, callback) {
-// 	console.log('[tunnistaKayttaja] kutsuttu käyttäjätunnuksella ' + kayttajatunnus + ' ja salasanalla ' + salasana)
-// 	c.query(('SELECT salasana FROM Kayttaja WHERE kayttajatunnus = :id'), {id: kayttajatunnus}, function(err, rows) {
-// 		if(err) {
-// 			console.log('tietokantaoperaatio epäonnistui')
-// 		}
-// 	})
-// 	c.end()
-// 	console.log('saatiin rivit ' + rows)
-// 	if(rows.salasana === salasana) {
-// 		callback(null, true)
-// 	}else{
-// 		callback(null, false) 
-// 	}
-// }
+exports.tarkistaKayttajatunnusJaOikeus = function(kayttajatunnus, kayttooikeus, callback) {
+	console.log('[tarkistaKayttajatunnusJaOikeus] kutsuttu käyttäjätunnus-kayttoikeus-parilla ' + kayttajatunnus + kayttooikeus)
+	c.query(("SELECT kayttooikeus FROM Kayttaja WHERE kayttajatunnus = '" + kayttajatunnus + "'"), function(err, rows) {
+	if (err) {
+		console.log('[tarkistaKayttajatunnusJaOikeus] virhe, ei käyttoikeutta: ' + err)
+		callback(null, false)
+	}
+	//c.end()
+	console.log('[tarkistaKayttajatunnusJaOikeus] saatiin rivit: ' + rows[0].kayttooikeus)
+	if(rows[0].kayttooikeus === kayttooikeus) {
+		callback(null, true)
+	}
+	})
+}
+
 
 exports.getResurssinKellonajatPaivalle = function(resurssi_id, paivamaara, callback) {
 	console.log('[getResurssinKellonajatPaivalle] kutsuttu resurssi_id:llä: ' + resurssi_id + ' ja päivämäärällä: ' + paivamaara)
