@@ -27,7 +27,7 @@ CREATE TABLE Kayttaja (
 	kayttajatunnus varchar(32),
 	salasana varchar(64),
 	asunto varchar(64)
-	# kayttooikeus ENUM('hallinto', 'asukas') DEFAULT ('asukas')
+	kayttooikeus ENUM('hallinto', 'asukas') DEFAULT ('asukas')
 );
 
 CREATE TABLE Lasku (

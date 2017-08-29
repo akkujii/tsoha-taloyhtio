@@ -16,13 +16,20 @@ CALL luoaikaraotpaivalle(2, '2017-08-07');
 CALL luoaikaraotpaivalle(2, '2017-08-08');
 CALL luoaikaraotpaivalle(2, '2017-08-09');
 
-# luodaan käyttäjiä
+# luodaan asukaskäyttäjiä
 INSERT INTO Kayttaja
 	(nimi, kayttajatunnus, salasana, asunto) VALUES
 	('Ismo Joki', 'river123', 'foryoureyesonly', 'C62'),
 	('Riikka Röppönen', 'riksu44', 'jarkko', 'A4'),
 	('Hans Eiler', 'hans77', 'auferstandenausruinen', 'D6')
 ;
+
+# luodaan isännöitsijä/hallintokäyttäjä
+INSERT INTO Kayttaja
+	(nimi, kayttajatunnus, salasana, kayttooikeus) VALUES
+	('Ilpo Isännöitsijä', 'ilpo57', 'm3rc3d3s', 'hallinto')
+;
+
 
 # luodaan käyttäjille varauksia
 

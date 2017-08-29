@@ -61,13 +61,39 @@ exports.getAikarako = function(id, callback) {
 }
 
 exports.tunnistaKayttaja = function(kayttajatunnus, salasana, callback) {
-	console.log('[tunnistaKayttaja] kutsuttu')
-	if(kayttajatunnus === 'testikayttaja' && salasana === 'foobar'){
+	console.log('[tunnistaKayttaja] kutsuttu käyttäjätunnuksella ' + kayttajatunnus)
+	c.query(("SELECT salasana FROM Kayttaja WHERE kayttajatunnus = '" + kayttajatunnus + "'"), function(err, rows) {
+	if (err) {
+		console.log('[tunnistaKayttaja] virhe: ' + err)
+		return err
+	}
+	c.end()
+	console.log('[tunnistaKayttaja] saatiin rivit: ' + rows[0].salasana)
+	if(rows[0].salasana === salasana) {
+		console.log('[tunnistaKayttaja] Salasana oikein')
 		callback(null, true)
 	}else{
+		console.log('[tunnistaKayttaja] Salasana väärin')
 		callback(null, false)
 	}
+	})
 }
+
+// exports.tunnistaKayttaja = function(kayttajatunnus, salasana, callback) {
+// 	console.log('[tunnistaKayttaja] kutsuttu käyttäjätunnuksella ' + kayttajatunnus + ' ja salasanalla ' + salasana)
+// 	c.query(('SELECT salasana FROM Kayttaja WHERE kayttajatunnus = :id'), {id: kayttajatunnus}, function(err, rows) {
+// 		if(err) {
+// 			console.log('tietokantaoperaatio epäonnistui')
+// 		}
+// 	})
+// 	c.end()
+// 	console.log('saatiin rivit ' + rows)
+// 	if(rows.salasana === salasana) {
+// 		callback(null, true)
+// 	}else{
+// 		callback(null, false) 
+// 	}
+// }
 
 exports.getResurssinKellonajatPaivalle = function(resurssi_id, paivamaara, callback) {
 	console.log('[getResurssinKellonajatPaivalle] kutsuttu resurssi_id:llä: ' + resurssi_id + ' ja päivämäärällä: ' + paivamaara)
