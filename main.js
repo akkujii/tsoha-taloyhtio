@@ -43,12 +43,17 @@ app.get('/etusivu', auth, function (req, res) {
 
 app.get('/resurssit', auth, function(req,res) {
 	console.log('[get /resurssit] pyydetty')
+	console.log('[get /resurssit] parametrillä: ' + req.query.toiminto)
 	console.log('[get /resurssit] kyselee käyttäjä: ' + req.session.user)
 	dbc.getResurssit(function(err, rows) {
 		if (err) {
 			console.log('Tietokantaoperaatio epäonnistui')
 		}
-		res.render('resurssit', {resurssit: rows, action: '/resurssi'})
+		if(req.query.toiminto === 'muokkaa'){
+			res.render('resurssit', { resurssit: rows, action: '/muokkaaresurssia'} )
+		}else if(req.query.toiminto === 'varaus') {
+			res.render('resurssit', { resurssit: rows, action: '/resurssi'} )
+		}
 	})
 })
 
@@ -99,11 +104,10 @@ app.get('/luoresurssi', auth, function (req, res) {
 })
 
 app.get('/muokkaaresurssia', auth, function (req, res) {
-	res.render('muokkaaresurssia')
-})
-
-app.post('/muokkaaresurssia', auth, function (req, res) {
-	console.log(req.body)
+	console.log('/muokkaaresurssia pyydetty: ' + req.query.id)
+	dbc.getOneResurssi(req.query.id, function(err, resurssi) {
+		res.render('muokkaaresurssia', { resurssi: resurssi })
+	})
 })
 
 app.get('/luokayttaja', auth, function (req, res) {

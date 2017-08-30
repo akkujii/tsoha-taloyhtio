@@ -21,6 +21,26 @@ exports.getResurssit = function(callback) {
 	});
 }
 
+exports.getOneResurssi = function(resurssi_id, callback) {
+	console.log('[getOneResurssi] kutsuttu')
+	c.query(('SELECT * FROM Resurssi WHERE Resurssi.id = ' + resurssi_id), function(err, rows) {
+		if (err) {
+			console.log('[getOneResurssi] virhe ' + err)
+			return err
+		}
+	console.log('[getOneResurssi] saatiin rivit: ' + rows)
+	c.end()
+	callback(null, rows[0])
+	})	
+}
+
+	// var resurssi = {resurssinnimi: 'testiresurssi',
+	// 				kayttoaikaalkaa: '15:00',
+	// 				kayttoaikapaattyy: '19:00',
+	// 				varausyksikko: '01:00',
+	// 				hinta: 1.50}
+	// callback(null, resurssi)
+
 exports.getAllAikaraot = function(callback) {
 	console.log('[getAllAikaraot] kutsuttu')
 	c.query('SELECT resurssinnimi, paivamaara, kellonaika FROM Aikarako LEFT JOIN Resurssi ON Aikarako.resurssi_id = Resurssi.id', function(err, rows) {
