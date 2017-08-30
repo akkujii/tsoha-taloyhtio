@@ -9,7 +9,7 @@ html
 	body
 		h1 Resurssit
 		p Valitse haluttu resurssi:
-		form(action='/resurssi', method='get')
+		form(action=action, method='get')
 			each resurssi in resurssit
 				button(type='submit' name='id' value=resurssi.id) #{resurssi.resurssinnimi}
 				br

@@ -48,7 +48,7 @@ app.get('/resurssit', auth, function(req,res) {
 		if (err) {
 			console.log('Tietokantaoperaatio epäonnistui')
 		}
-		res.render('resurssit', {resurssit: rows})
+		res.render('resurssit', {resurssit: rows, action: '/resurssi'})
 	})
 })
 
