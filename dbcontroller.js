@@ -99,6 +99,24 @@ exports.tunnistaKayttaja = function(kayttajatunnus, salasana, callback) {
 	})
 }
 
+exports.muokkaaResurssia = function(tiedot, callback) {
+	console.log('[muokkaaResurssia] kutsuttu tiedoilla: ' + Object.getOwnPropertyNames(tiedot))
+	c.query(('UPDATE Resurssi SET ' +
+			 'resurssinnimi = "' + tiedot.resurssinnimi + '",' +
+			 'kayttoaikaalkaa = "' + tiedot.kayttoaikaalkaa + '",' +
+			 'kayttoaikapaattyy = "' + tiedot.kayttoaikapaattyy + '",' + 
+			 'varausyksikko = "' + tiedot.varausyksikko + '",' +
+			 'hinta = ' + tiedot.hinta + 
+			 'WHERE id = ' + tiedot.id), function(err, rows) {
+		if(err) {
+			console.log('[muokkaaResrussia] resurssin muokkaus epäonnistui ' + err)
+			callback(err)
+		}else{
+			callback(null)
+		}
+	})
+}
+
 exports.tarkistaKayttajatunnusJaOikeus = function(kayttajatunnus, kayttooikeus, callback) {
 	console.log('[tarkistaKayttajatunnusJaOikeus] kutsuttu käyttäjätunnus-kayttoikeus-parilla ' + kayttajatunnus + kayttooikeus)
 	c.query(("SELECT kayttooikeus FROM Kayttaja WHERE kayttajatunnus = '" + kayttajatunnus + "'"), function(err, rows) {

@@ -114,6 +114,17 @@ app.get('/muokkaaresurssia', auth, function (req, res) {
 	})
 })
 
+app.post('/muokkaaresurssia', auth, function (req, res) {
+	console.log('[POST /muokkaaresurssia kutsuttu]' + Object.getOwnPropertyNames(req.body))
+	dbc.muokkaaResurssia(req.body, function(err) {
+		if(err) {
+			res.send('Resurssin muokkaus epäonnistui.')
+		}else{
+			res.send('Resurssin muokkaus onnistui')
+		}
+	})
+})
+
 app.get('/luokayttaja', auth, function (req, res) {
 	console.log('[get /luokayttaja] kutsuttu')
 	res.render('luokayttaja')
