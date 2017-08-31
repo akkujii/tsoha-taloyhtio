@@ -161,9 +161,13 @@ app.get('/vahvista', auth, function(req, res) {
 app.post('/vahvista', auth, function(req, res) {
 	console.log('[POST /vahvista] kutsuttu, halutaan varata aikarako: ' + req.body.id)
 	console.log('[POST /vahvista] kutsuttu parametreillä: ' + Object.values(req.body))
-	// TODO toteuta dbcontrolleriin varauksen lisäys
-	res.render('vahvistettu')
-
+	dbc.varaaAikarako(req.body.id, req.session.kayttaja_id, function(err) {
+		if(err) {
+			res.send('varaus ei onnistunut')
+		}else{
+			res.render('vahvistettu')
+		}
+	})
 })
 
 app.get('/omatvaraukset', auth, function (req, res) {

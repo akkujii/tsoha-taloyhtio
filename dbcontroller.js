@@ -21,6 +21,20 @@ exports.getResurssit = function(callback) {
 	});
 }
 
+exports.varaaAikarako = function(aikarako_id, kayttaja_id, callback) {
+	console.log('[varaaResurssi] kutsuttu käyttäjällä ' + aikarako_id + ' ja kayttaja_id:llä: ' + kayttaja_id)
+	c.query(('INSERT INTO Varaus (aikarako_id, varaaja_id) VALUES ('+ aikarako_id +', ' + kayttaja_id + ')'), function(err, rows) {
+		if (err) {
+			console.log('[varaaResurssi] virhe ' + err)
+			return err
+		}
+	console.log('[varaaResurssi] saatiin rivit: ' + rows)
+	c.end()
+	callback(null)
+	})	
+
+}
+
 exports.getOneResurssi = function(resurssi_id, callback) {
 	console.log('[getOneResurssi] kutsuttu')
 	c.query(('SELECT * FROM Resurssi WHERE Resurssi.id = ' + resurssi_id), function(err, rows) {
