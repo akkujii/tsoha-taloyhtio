@@ -125,7 +125,7 @@ app.get('/muokkaaresurssia', auth, function (req, res) {
 })
 
 app.post('/muokkaaresurssia', auth, function (req, res) {
-	console.log('[POST /muokkaaresurssia kutsuttu]' + Object.getOwnPropertyNames(req.body))
+	console.log('[POST /muokkaaresurssia kutsuttu]')
 	dbc.muokkaaResurssia(req.body, function(err) {
 		if(err) {
 			res.send('Resurssin muokkaus epäonnistui.')
@@ -160,7 +160,7 @@ app.get('/vahvista', auth, function(req, res) {
 
 app.post('/vahvista', auth, function(req, res) {
 	console.log('[POST /vahvista] kutsuttu, halutaan varata aikarako: ' + req.body.id)
-	console.log('[POST /vahvista] kutsuttu parametreillä: ' + Object.values(req.body))
+	console.log('[POST /vahvista] kutsuttu parametreillä: ')
 	dbc.varaaAikarako(req.body.id, req.session.kayttaja_id, function(err) {
 		if(err) {
 			res.send('varaus ei onnistunut')
