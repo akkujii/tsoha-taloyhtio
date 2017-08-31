@@ -37,10 +37,6 @@ app.get('/', auth, function (req, res) {
  	res.render('index', {kayttaja: req.session.kayttajannimi})
 })
 
-// app.get('/etusivu', auth, function (req, res) {
-//  	res.render('index', {kayttaja: req.session.user})
-// })
-
 app.get('/resurssit', auth, function(req,res) {
 	console.log('[get /resurssit] pyydetty')
 	console.log('[get /resurssit] parametrillä: ' + req.query.toiminto)
@@ -56,10 +52,6 @@ app.get('/resurssit', auth, function(req,res) {
 		}
 	})
 })
-
-// app.get('/kirjaudu', auth, function(req,res) {
-// 	res.render('index', {kayttaja: req.session.user})
-// })
 
 app.post('/', function (req, res) {
 	console.log('Yritetään kirjautu salasanalla: ' + req.body.username +' ja käyttäjätunnuksella: ' + req.body.password)
@@ -154,7 +146,7 @@ app.get('/luokayttaja', auth, function (req, res) {
 app.get('/aikarakolistaus', auth, function (req, res) {
 	console.log('/aikarakolistaus pyydetty')
 	dbc.getAllAikaraot(function(err, rows) {
-		res.render('aikarakolistaus', {aikaraot: rows})
+		res.render('aikarakolistaus', { aikaraot: rows })
 	})
 })
 
@@ -191,6 +183,27 @@ app.get('/omatvaraukset', auth, function (req, res) {
 	})
 }) 
 
+app.get('/kaikkivaraukset', auth, function (req, res) {
+	dbc.haeKaikkiVaraukset(function(err, rows) {
+		if(err) {
+			res.render('kuittaus', { viesti: 'Varauksien haku epäonnistui'})
+		}else{
+			res.render('kaikkivaraukset', {varaukset: rows})
+		}
+	})
+})
+
+app.post('/poistaaikarako', function (req, res) {
+	console.log('[POST /poistaaikarako kutsuttu id:llä' + req.body.id )
+	dbc.poistaAikarako(req.body.id, function(err) {
+		if(err) {
+			res.render('kuittaus', { viesti: 'Aikaraon poisto epäonnistui.'})
+		}else{
+			res.redirect('/aikarakolistaus')
+		}
+	})
+})
+
 app.post('/poistavaraus', function (req, res) {
 	console.log('[/poistavaraus] halutaan poistaa varaus: ' + req.body.id);
 	dbc.poistaVaraus(req.body.id, function(err, done) {
@@ -219,7 +232,7 @@ app.get('/kellonajat', auth, function (req, res) {
 			res.render('virhe')
 			return
 		}else{
-			res.render('kellonajat', {aikaraot: rows})		
+			res.render('kellonajat', {aikaraot: rows, resurssi_id: req.query.resurssi_id})		
 		}
 	})
 })

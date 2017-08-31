@@ -73,18 +73,11 @@ exports.poistaResurssi = function(id, callback) {
 	}) 
 }
 
-	// var resurssi = {resurssinnimi: 'testiresurssi',
-	// 				kayttoaikaalkaa: '15:00',
-	// 				kayttoaikapaattyy: '19:00',
-	// 				varausyksikko: '01:00',
-	// 				hinta: 1.50}
-	// callback(null, resurssi)
-
 exports.getAllAikaraot = function(callback) {
 	console.log('[getAllAikaraot] kutsuttu')
-	c.query('SELECT resurssinnimi, paivamaara, kellonaika FROM Aikarako LEFT JOIN Resurssi ON Aikarako.resurssi_id = Resurssi.id', function(err, rows) {
+	c.query('SELECT Aikarako.id, resurssinnimi, paivamaara, kellonaika FROM Aikarako LEFT JOIN Resurssi ON Aikarako.resurssi_id = Resurssi.id', function(err, rows) {
 	if (err) {
-		console.log('[getAllAikaraot] virhe: ' + error)
+		console.log('[getAllAikaraot] virhe: ' + err)
 		return err
 	}
 	c.end();
@@ -92,6 +85,18 @@ exports.getAllAikaraot = function(callback) {
 	callback(null, rows)
 	});
 
+}
+
+exports.poistaAikarako = function(id, callback) {
+	console.log('[poistaAikarako] kutsuttu id:llä ' + id)
+	c.query(('DELETE FROM Aikarako WHERE id = ' + id), function(err, rows) {
+		if(err) {
+			console.log('[poistaAikarako] Aikaraon poisto ei onnistunut, virhe: ' + err)
+			callback(err)
+		}
+		c.end();
+		callback(null)
+	}) 
 }
 
 exports.getPaivamaarat = function(resurssi_id, callback) {
@@ -108,7 +113,7 @@ exports.getPaivamaarat = function(resurssi_id, callback) {
 
 exports.getAikarako = function(id, callback) {
 	console.log('[getPaivamaarat] kutsuttu resurssi_id:llä ' + id)
-	c.query(('SELECT Aikarako.id, Aikarako.paivamaara, Aikarako.kellonaika, Aikarako.kesto, Resurssi.resurssinnimi, Resurssi.hinta FROM Aikarako LEFT JOIN Resurssi ON Aikarako.resurssi_id = Resurssi.id WHERE Aikarako.id = ' + id), function(err, rows) {
+	c.query(('SELECT Aikarako.id, Aikarako.paivamaara, Aikarako.kellonaika, Aikarako.kesto, Aikarako.resurssi_id, Resurssi.resurssinnimi, Resurssi.hinta FROM Aikarako LEFT JOIN Resurssi ON Aikarako.resurssi_id = Resurssi.id WHERE Aikarako.id = ' + id), function(err, rows) {
 	if (err) {
 		console.log('[getAIkarako]  virhe: ' + err)
 		return err
@@ -168,6 +173,22 @@ exports.tarkistaKayttajatunnusJaOikeus = function(kayttajatunnus, kayttooikeus, 
 	if(rows[0].kayttooikeus === kayttooikeus) {
 		callback(null, true)
 	}
+	})
+}
+
+exports.haeKaikkiVaraukset = function(callback) {
+	console.log('[haeKaikkiVaraukset]')
+	c.query(("SELECT Kayttaja.kayttajatunnus, Varaus.id, Aikarako.paivamaara, Aikarako.kellonaika, " + 
+		"Resurssi.resurssinnimi, Kayttaja.nimi FROM Varaus " + 
+		"LEFT JOIN Kayttaja ON Varaus.varaaja_id = Kayttaja.id " +
+		"LEFT JOIN Aikarako ON Aikarako.id = Varaus.aikarako_id " +
+		"LEFT JOIN Resurssi ON Aikarako.resurssi_id = Resurssi.id "), 
+		function(err, rows) {
+		if (err) {
+			console.log('[haeKayttajanVaraukset] kysely epäonnistui: ' + err)
+			callback(null, null)
+		}
+		callback(null, rows)
 	})
 }
 
