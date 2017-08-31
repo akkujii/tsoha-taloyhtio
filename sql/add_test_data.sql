@@ -37,7 +37,15 @@ INSERT INTO Varaus
 	(tunnusluku, aikarako_id, varaaja_id) VALUES
 	("2345", 8, 1), # varataan Ismolle Sauna 2017-08-05 13:00:00
 	("0000", 59, 2), # varataan Riikalle pyykkitupa 2017-08-05 16:00:00
-	("4242", 60, 3) # varataan Hansille pyykkitupa 2017-08-05 17:00:00
+	("4242", 60, 3), # varataan Hansille pyykkitupa 2017-08-05 17:00:00
+	
+	("4321", 4, 1), # varataan Ismolle Sauna','2017-08-05','17:00:00'
+	("5432", 5, 2), # varataan Riikalle Sauna','2017-08-05','18:00:00'
+	("4321", 6, 3), # varataan Hansille 'Sauna','2017-08-05','19:00:00'
+	("5432", 29, 1), # varataan Ismolle Pyykkitupa', '2017-08-05', '09:00:00'
+	("4322", 30, 2), # varataan Riikalle Pyykkitupa', '2017-08-05', '10:00:00'
+	("4591", 31, 3), # varataan Hansille  'Pyykkitupa', '2017-08-05', '11:00:00'
+	("1234", 46, 1) # varataan Ismolle Pyykkitupa', '2017-08-06', '10:00:00'
 ;
 
 # tehdään Hansille lasku pyykkituvan käytöstä

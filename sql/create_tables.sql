@@ -69,3 +69,4 @@ CREATE PROCEDURE luoaikaraotpaivalle(res int, pvm date)
 //
 
 DELIMITER ;
+
