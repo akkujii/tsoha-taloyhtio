@@ -87,7 +87,7 @@ app.post('/', function (req, res) {
 app.get('/logout', function (req, res) {
 	console.log('[/logout] käyttäjä kirjautui ulos: ' + req.session.user)
 	req.session.destroy();
-	res.send('Uloskirjautuminen onnistui')
+	res.redirect('/')
 })
 
 app.post('/luoresurssi', auth, function (req, res) {
@@ -95,9 +95,9 @@ app.post('/luoresurssi', auth, function (req, res) {
 	console.log('Pitäisi tulostua resurssin nimi: ' + req.body.resurssinnimi)
 	dbc.luoUusiResurssi(req.body, function(err) {
 		if(err) {
-			res.send('Resurssin luonti epäonnistui')
+			res.render('kuittaus', {viesti: 'Resurssin luonti epäonnistui.'})
 		}else{
-			res.send('Resurssin luonti onnistui')
+			res.render('kuittaus', {viesti: 'Resurssin luonti onnistui.'})
 		}
 	})
 
@@ -128,9 +128,9 @@ app.post('/muokkaaresurssia', auth, function (req, res) {
 	console.log('[POST /muokkaaresurssia kutsuttu]')
 	dbc.muokkaaResurssia(req.body, function(err) {
 		if(err) {
-			res.send('Resurssin muokkaus epäonnistui.')
+			res.render('kuittaus', {viesti: 'Resurssin muokkaus epäonnistui.'})
 		}else{
-			res.send('Resurssin muokkaus onnistui')
+			res.render('kuittaus', {viesti: 'Resurssin muokkaus onnistui'})
 		}
 	})
 })
@@ -151,7 +151,7 @@ app.get('/vahvista', auth, function(req, res) {
 	console.log('[/vahvista] pyydetty id:llä ' + req.query.id)
 	dbc.getAikarako(req.query.id, function(err, rows) {
 		if(err) {
-			res.render('virhe')
+			res.render('kuittaus', {viesti: 'Toiminto ei onnistunut'})
 		}
 		console.log('saatiin rivit: ' + rows[0])
 		res.render('vahvista', {tiedot: rows[0]})
@@ -163,7 +163,7 @@ app.post('/vahvista', auth, function(req, res) {
 	console.log('[POST /vahvista] kutsuttu parametreillä: ')
 	dbc.varaaAikarako(req.body.id, req.session.kayttaja_id, function(err) {
 		if(err) {
-			res.send('varaus ei onnistunut')
+			res.render('kuittaus', {viesti: 'Varaus ei onnistunut'})
 		}else{
 			res.render('vahvistettu')
 		}
