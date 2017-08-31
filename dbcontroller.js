@@ -55,7 +55,7 @@ exports.poistaVaraus = function(varaus_id, callback) {
 			console.log('[poistaVaraus] Varauksen poisto ei onnistunut, virhe: ' + err)
 			callback(err, null)
 		}
-		c.end()
+		c.end();
 		callback(null, true)
 		
 	}) 
@@ -127,7 +127,7 @@ exports.tunnistaKayttaja = function(kayttajatunnus, salasana, callback) {
 }
 
 exports.muokkaaResurssia = function(tiedot, callback) {
-	console.log('[muokkaaResurssia] kutsuttu tiedoilla: ' + Object.getOwnPropertyNames(tiedot))
+	console.log('[muokkaaResurssia] kutsuttu tiedoilla: ')
 	c.query(('UPDATE Resurssi SET ' +
 			 'resurssinnimi = "' + tiedot.resurssinnimi + '",' +
 			 'kayttoaikaalkaa = "' + tiedot.kayttoaikaalkaa + '",' +
