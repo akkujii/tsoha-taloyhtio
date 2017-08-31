@@ -61,6 +61,18 @@ exports.poistaVaraus = function(varaus_id, callback) {
 	}) 
 }
 
+exports.poistaResurssi = function(id, callback) {
+	console.log('[poistaResurssi] kutsuttu id:llä ' + id)
+	c.query(('DELETE FROM Resurssi WHERE id = ' + id), function(err, rows) {
+		if(err) {
+			console.log('[poistaresurssi] Resurssin poisto ei onnistunut, virhe: ' + err)
+			callback(err)
+		}
+		c.end();
+		callback(null)
+	}) 
+}
+
 	// var resurssi = {resurssinnimi: 'testiresurssi',
 	// 				kayttoaikaalkaa: '15:00',
 	// 				kayttoaikapaattyy: '19:00',

@@ -135,6 +135,17 @@ app.post('/muokkaaresurssia', auth, function (req, res) {
 	})
 })
 
+app.post('/poistaresurssi', auth, function (req, res) {
+	console.log('[POST /poistaresurssi kutsuttu parametrilla ' + req.body.id)
+	dbc.poistaResurssi(req.body.id, function(err) {
+		if(err) {
+			res.render('kuittaus', { viesti: 'Resurssin poisto epäonnistui.'})
+		}else{
+			res.render('kuittaus', { viesti: 'Resurssin poisto onnistui'})
+		}
+	})
+})
+
 app.get('/luokayttaja', auth, function (req, res) {
 	console.log('[get /luokayttaja] kutsuttu')
 	res.render('luokayttaja')

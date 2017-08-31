@@ -1,0 +1,9 @@
+html
+	include head.pug
+	body
+		div(class='container')
+			h1 Resurssin poiston varmistus
+			p Haluatko varmasti poistaa resurssin #{resurssi.nimi}?
+			form(action='/poistaresurssi' method='post')
+				input(type='hidden' name='id' value=resurssi.id)
+				input(type='submit' value='Vahvista varaus')
