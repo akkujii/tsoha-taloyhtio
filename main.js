@@ -103,6 +103,16 @@ app.post('/luoresurssi', auth, function (req, res) {
 
 })
 
+app.get('/resurssilistaus', auth, function (req, res) {
+		dbc.getResurssit(function(err, rows) {
+		if (err) {
+			console.log('Tietokantaoperaatio epäonnistui')
+		}
+		res.render('resurssilistaus', { resurssit: rows })
+	})
+	
+})
+
 app.get('/luoresurssi', auth, function (req, res) {
 	res.render('luoresurssi')
 })
