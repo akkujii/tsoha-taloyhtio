@@ -64,7 +64,7 @@ app.get('/resurssit', auth, function(req,res) {
 app.post('/', function (req, res) {
 	console.log('Yritetään kirjautu salasanalla: ' + req.body.username +' ja käyttäjätunnuksella: ' + req.body.password)
 	if(!req.body.username || !req.body.password) {
-		res.send('Käyttäjätunnusta tai salasanaa ei syötetty')
+		res.render('kuittaus', {viesti: 'Käyttäjätunnusta tai salasanaa ei syötetty.'})
 	}else{
 		dbc.tunnistaKayttaja(req.body.username, req.body.password, function(err, data) {
 			if(data) {
@@ -173,7 +173,7 @@ app.post('/vahvista', auth, function(req, res) {
 app.get('/omatvaraukset', auth, function (req, res) {
 	dbc.haeKayttajanVaraukset(req.session.user, function(err, rows) {
 		if(err) {
-			res.send('Varauksien haku epäonnistui')
+			res.render('kuittaus', { viesti: 'Varauksien haku epäonnistui'})
 		}else{
 			res.render('omatvaraukset', {varaukset: rows})
 		}
@@ -184,10 +184,10 @@ app.post('/poistavaraus', function (req, res) {
 	console.log('[/poistavaraus] halutaan poistaa varaus: ' + req.body.id);
 	dbc.poistaVaraus(req.body.id, function(err, done) {
 		if(err) {
-			res.send('Poisto-operaatio ei onnistunut')
+			res.render('kuittaus', {viesti: 'Poisto epäonnistui'})
 		}
 		if(done) {
-			res.send('Varauksen poisto onnistui!')
+			res.render('kuittaus', {viesti: 'Varauksen poisto onnistui!'})
 		}
 	})
 })
