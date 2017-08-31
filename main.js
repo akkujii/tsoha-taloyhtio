@@ -34,12 +34,12 @@ var auth = function(req, res, next) {
 }
 
 app.get('/', auth, function (req, res) {
- 	res.render('index')
+ 	res.render('index', {kayttaja: req.session.kayttajannimi})
 })
 
-app.get('/etusivu', auth, function (req, res) {
- 	res.render('index', {kayttaja: req.session.user})
-})
+// app.get('/etusivu', auth, function (req, res) {
+//  	res.render('index', {kayttaja: req.session.user})
+// })
 
 app.get('/resurssit', auth, function(req,res) {
 	console.log('[get /resurssit] pyydetty')
@@ -57,11 +57,11 @@ app.get('/resurssit', auth, function(req,res) {
 	})
 })
 
-app.get('/kirjaudu', auth, function(req,res) {
-	res.render('index', {kayttaja: req.session.user})
-})
+// app.get('/kirjaudu', auth, function(req,res) {
+// 	res.render('index', {kayttaja: req.session.user})
+// })
 
-app.post('/kirjaudu', function (req, res) {
+app.post('/', function (req, res) {
 	console.log('Yritetään kirjautu salasanalla: ' + req.body.username +' ja käyttäjätunnuksella: ' + req.body.password)
 	if(!req.body.username || !req.body.password) {
 		res.send('Käyttäjätunnusta tai salasanaa ei syötetty')
@@ -69,10 +69,14 @@ app.post('/kirjaudu', function (req, res) {
 		dbc.tunnistaKayttaja(req.body.username, req.body.password, function(err, data) {
 			if(data) {
 				req.session.user = req.body.username
-				console.log('[/kirjaudu] sessiota käyttää: ' + req.session.user)
+				req.session.kayttajannimi = data[0].nimi
+				console.log("[/] sessiota käyttävän henkilön nimi :" + req.session.kayttajannimi)
+				req.session.kayttaja_id = data[0].id
+				console.log("[/] sessiota käyttävän henkilön id: " + req.session.kayttaja_id)
+				console.log('[/] sessiota käyttää: ' + req.session.user)
 				req.session.kayttooikeus = data[0].kayttooikeus
-				console.log('[/kirjaudu] sessiolla käyttöoikeus: ' + req.session.kayttooikeus)
-				res.render('index', {kayttaja: data[0].nimi})
+				console.log('[/] sessiolla käyttöoikeus: ' + req.session.kayttooikeus)
+				res.render('index', {kayttaja: req.session.kayttajannimi})
 			}else{
 				res.send('Ei pääsyä')
 			}
@@ -135,6 +139,7 @@ app.get('/vahvista', auth, function(req, res) {
 
 app.post('/vahvista', auth, function(req, res) {
 	console.log('[POST /vahvista] kutsuttu, halutaan varata aikarako: ' + req.body.id)
+	console.log('[POST /vahvista] kutsuttu parametreillä: ' + Object.values(req.body))
 	// TODO toteuta dbcontrolleriin varauksen lisäys
 	res.render('vahvistettu')
 

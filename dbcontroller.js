@@ -82,7 +82,7 @@ exports.getAikarako = function(id, callback) {
 
 exports.tunnistaKayttaja = function(kayttajatunnus, salasana, callback) {
 	console.log('[tunnistaKayttaja] kutsuttu käyttäjätunnuksella ' + kayttajatunnus)
-	c.query(("SELECT salasana, kayttooikeus, nimi FROM Kayttaja WHERE kayttajatunnus = '" + kayttajatunnus + "'"), function(err, rows) {
+	c.query(("SELECT id, salasana, kayttooikeus, nimi FROM Kayttaja WHERE kayttajatunnus = '" + kayttajatunnus + "'"), function(err, rows) {
 	if (err) {
 		console.log('[tunnistaKayttaja] virhe: ' + err)
 		return err
