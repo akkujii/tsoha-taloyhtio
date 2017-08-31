@@ -3,13 +3,12 @@
 //- var resurssit = [sauna, pyykkitupa]
 
 html
-	head
-		title Rerurssit
-		
+	include head.pug
 	body
-		h1 Resurssit
-		p Valitse haluttu resurssi:
-		form(action=action, method='get')
-			each resurssi in resurssit
-				button(type='submit' name='id' value=resurssi.id) #{resurssi.resurssinnimi}
-				br
+		div(class='container')
+			h1 Resurssit
+			p Valitse haluttu resurssi:
+			form(action=action, method='get')
+				each resurssi in resurssit
+					button(type='submit' name='id' value=resurssi.id) #{resurssi.resurssinnimi}
+					br

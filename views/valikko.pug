@@ -1,6 +1,0 @@
-h1 #{teksti}
-html
-form(action='/yksittaisvaraus', method='get')
-	each toiminto in toiminnot.length ? toiminnot : ['Valikkoa ei pystytä muodostamaan']
-		button(type='submit' name='sisalto' value=toiminto.id) #{toiminto.toiminto}
-		br

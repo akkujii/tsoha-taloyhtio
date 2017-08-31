@@ -38,7 +38,7 @@ app.get('/', function (req, res) {
 })
 
 app.get('/etusivu', auth, function (req, res) {
- 	res.render('index')
+ 	res.render('index', {kayttaja: req.session.user})
 })
 
 app.get('/resurssit', auth, function(req,res) {
@@ -51,7 +51,7 @@ app.get('/resurssit', auth, function(req,res) {
 		}
 		if(req.query.toiminto === 'muokkaa'){
 			res.render('resurssit', { resurssit: rows, action: '/muokkaaresurssia'} )
-		}else if(req.query.toiminto === 'varaus') {
+		}else if(req.query.toiminto === 'varaa') {
 			res.render('resurssit', { resurssit: rows, action: '/resurssi'} )
 		}
 	})

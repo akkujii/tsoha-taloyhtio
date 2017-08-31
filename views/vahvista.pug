@@ -1,27 +1,30 @@
 html
-	title Varauksen vahvistus
-h1 Varauksen vahvistus
-p Tarkista varauksen tiedot ja vahvista varaus
-table
-	tr
-		td Resurssi: 
-		td #{tiedot.resurssinnimi}
-	tr
-		td Päivämäärä:
-		td #{tiedot.paivamaara}
-	tr
-		td Kellonaika:
-		td #{tiedot.kellonaika}
-	tr
-		td Kesto:
-		td #{tiedot.kesto}
-	tr
-		td Hinta:
-		td #{tiedot.hinta}
-	tr
-		td Id:
-		td #{tiedot.id}
+	include head.pug
+	body
+		div(class='container')
+			h1 Varauksen vahvistus
+			p Tarkista varauksen tiedot ja vahvista varaus
+			table(class='table-condensed')
+				tr
+					td Resurssi: 
+					td #{tiedot.resurssinnimi}
+				tr
+					td Päivämäärä:
+					td #{tiedot.paivamaara}
+				tr
+					td Kellonaika:
+					td #{tiedot.kellonaika}
+				tr
+					td Kesto:
+					td #{tiedot.kesto}
+				tr
+					td Hinta:
+					td #{tiedot.hinta}
 
-form(action='/vahvista' method='post')
-	input(type='hidden' name='id' value=tiedot.id)
-	input(type='submit' value='Vahvista varaus')
+			form(action='/vahvista' method='post')
+				input(type='hidden' name='id' value=tiedot.id)
+				input(type='submit' value='Vahvista varaus')
+
+//				tr
+//					td Id:
+//					td #{tiedot.id}

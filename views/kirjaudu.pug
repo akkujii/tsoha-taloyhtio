@@ -1,15 +1,15 @@
 html
-	head
-		title= Kirjautuminen
+	include head.pug
 	body
-		h1 Taloyhtiön palvelut - kirjautuminen
-		strong Järjestelmä edellyttää evästeiden (cookies) käyttöä. Jatkamalla järjestelmän käyttöä hyväksyt evästeiden käytön.
-		form(action='/kirjaudu' method='post')
-			div
-				label(for='username') Käyttäjätunnus: 
-				input(type='text' name='username')
-			div
-				label(for='password') Salasana: 
-				input(type='password' name='password')
-			div
-				input(type='submit' value='Kirjaudu')
+		div(class='container')
+			h1 Taloyhtiön palvelut - kirjautuminen
+			strong Järjestelmä edellyttää evästeiden (cookies) käyttöä. Jatkamalla järjestelmän käyttöä hyväksyt evästeiden käytön.
+			form(action='/kirjaudu' method='post')
+				div
+					label(for='username') Käyttäjätunnus: 
+					input(type='text' name='username')
+				div
+					label(for='password') Salasana: 
+					input(type='password' name='password')
+				div
+					input(type='submit' value='Kirjaudu')

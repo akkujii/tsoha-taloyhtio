@@ -3,13 +3,15 @@
 //- var id = 1
 
 html
-	title Resurssin vapaat kellonajat
-h1 Resurssin vapaat kellonajat
-p Valitse kellonaika
-form(action='/vahvista', method='get')
-	each aikarako in aikaraot
-		button(type='submit' name='id' value=aikarako.id) #{aikarako.kellonaika}
-		br
+	include head.pug
+	body
+		div(class='container')
+			h1 Resurssin vapaat kellonajat
+			p Valitse kellonaika
+			form(action='/vahvista', method='get')
+				each aikarako in aikaraot
+					button(type='submit' name='id' value=aikarako.id) #{aikarako.kellonaika}
+					br
 
 
 //	input(type='hidden' name='resurssi' value=resurssi.id)

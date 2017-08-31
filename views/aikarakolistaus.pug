@@ -1,15 +1,18 @@
 //- var aikaraot = [{resurssinnimi: 'sauna', paivamaara: '23-04-2017', kellonaika: '15:30'}, {resurssinnimi: 'pyykkitupa', paivamaara: '03-06-2017', kellonaika: '17:30'}]
 
+html
+	include head.pug
+	body
+		div(class='container')
+			h1 Aikaraot
 
-h1 Aikaraot
-
-table
-	tr
-		th Resurssin nimi
-		th Päivämäärä
-		th Kellonaika
-	each aikarako in aikaraot
-		tr
-			td #{aikarako.resurssinnimi}
-			td #{aikarako.paivamaara}
-			td #{aikarako.kellonaika}
+			table(class='table')
+				tr
+					th Resurssin nimi
+					th Päivämäärä
+					th Kellonaika
+				each aikarako in aikaraot
+					tr
+						td #{aikarako.resurssinnimi}
+						td #{aikarako.paivamaara}
+						td #{aikarako.kellonaika}

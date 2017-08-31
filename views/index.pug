@@ -1,21 +1,19 @@
 html
-  head
-    title= title
-    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css")
-    meta(charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
-body
-    h1 Tervetuloa
-    p Olet kirjautuneena käyttäjällä: #{kayttaja}
-    p Taloyhtiön palvelut
-    a(href='/resurssit?toiminto=varaa') Varaa resurssi
-    br
-    a(href='/resurssit?toiminto=muokkaa') Muokkaa resurssia
-    br
-    a(href='/luoresurssi') Luo uusi resurssi
-    br
-    a(href='/aikarakolistaus') Listaa aikaraot
-    br
-    a(href='/omatvaraukset') Listaa/poista omia varauksiani
-    br
-    a(href='/logout') Kirjaudu ulos
-    br
+    include head.pug
+    body
+        div(class='container')
+            h1 Tervetuloa
+            p Olet kirjautuneena käyttäjällä: #{kayttaja}
+            p Taloyhtiön palvelut
+            a(href='/resurssit?toiminto=varaa') Varaa resurssi
+            br
+            a(href='/resurssit?toiminto=muokkaa') Muokkaa resurssia
+            br
+            a(href='/luoresurssi') Luo uusi resurssi
+            br
+            a(href='/aikarakolistaus') Listaa aikaraot
+            br
+            a(href='/omatvaraukset') Listaa/poista omia varauksiani
+            br
+            a(href='/logout') Kirjaudu ulos
+            br
