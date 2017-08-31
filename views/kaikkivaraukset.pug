@@ -3,12 +3,13 @@ html
 	include head.pug
 	body
 		div(class='container')
-			h1 Omat varaukset
+			h1 Kaikki varaukset
 			table(class='table')
 				tr
 					th resurssin nimi
 					th päivämäärä
 					th kellonaika
+					th varaaja
 					th poista
 				form(action='/poistavaraus' method='post')
 					each varaus in varaukset
@@ -16,6 +17,7 @@ html
 							td #{varaus.resurssinnimi}
 							td #{varaus.paivamaara}
 							td #{varaus.kellonaika}
+							td #{varaus.nimi}
 							td 
 								button(type='submit' name='id' value=varaus.id) Poista
 			a(href='/') Palaa etusivulle

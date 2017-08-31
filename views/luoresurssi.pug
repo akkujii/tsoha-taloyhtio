@@ -7,22 +7,24 @@ html
 			h1 Luo uusi resurssi
 
 			form(action='/luoresurssi', method='post')
+				p Järjestelmän tässä versiossa varausyksikön alku- ja loppuajankohta on oltava tasalta tai puolelta (esim. 9:00 tai 8:30). Myös varausyksikön kesto on 
 				label(for='resurssinnimi') resurssin nimi:
 				input(type='text' name='resurssinnimi')
 				br
 				label(for='kayttoaikaalkaa') resurssin käyttöajan alkuajankohta: 
-				input(type='time' name='kayttoaikaalkaa' step=900)
+				input(type='time' name='kayttoaikaalkaa' step=1800)
 				br
 				label(for='kayttoaikapaattyy') resurssin käyttöajan alkuajankohta: 
-				input(type='time' name='kayttoaikapaattyy' step=900)
+				input(type='time' name='kayttoaikapaattyy' step=1800)
 				br
 				label(for='varausyksikko') varausyksikön kesto: 
-				input(type='time' name='varausyksikko' step=900)
+				input(type='time' name='varausyksikko' step=1800)
 				br
 				label(for='hinta') varausyksikön hinta: 
 				input(type='number' step=0.01 name='hinta')
 				br
 				input(type='submit')
+			a(href='/') Palaa etusivulle
 
 
 

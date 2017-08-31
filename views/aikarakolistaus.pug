@@ -11,8 +11,13 @@ html
 					th Resurssin nimi
 					th Päivämäärä
 					th Kellonaika
-				each aikarako in aikaraot
-					tr
-						td #{aikarako.resurssinnimi}
-						td #{aikarako.paivamaara}
-						td #{aikarako.kellonaika}
+					th Poista
+				form(action='/poistaaikarako' method='post')
+					each aikarako in aikaraot
+						tr
+							td #{aikarako.resurssinnimi}
+							td #{aikarako.paivamaara}
+							td #{aikarako.kellonaika}
+							td 
+								button(type='submit' name='id' value=aikarako.id) Poista
+			a(href='/') Palaa etusivulle

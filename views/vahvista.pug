@@ -24,7 +24,7 @@ html
 			form(action='/vahvista' method='post')
 				input(type='hidden' name='id' value=tiedot.id)
 				input(type='submit' value='Vahvista varaus')
+			a(href='/kellonajat?resurssi_id=' + tiedot.resurssi_id + '&paivamaara=' + tiedot.paivamaara) Palaa kellonajan valintaan
+			br
+			a(href='/') Palaa etusivulle
 
-//				tr
-//					td Id:
-//					td #{tiedot.id}

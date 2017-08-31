@@ -12,6 +12,7 @@ html
 				each aikarako in aikaraot
 					button(type='submit' name='id' value=aikarako.id) #{aikarako.kellonaika}
 					br
+			a(href='/resurssi?id=' + resurssi_id) Takaisin päivän valintaan
 
 
 //	input(type='hidden' name='resurssi' value=resurssi.id)

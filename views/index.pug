@@ -2,20 +2,23 @@ html
     include head.pug
     body
         div(class='container')
-            h1 Tervetuloa
+            h1 Tervetuloa taloyhtiön palveluihin!
             p Olet kirjautuneena käyttäjällä: #{kayttaja}
-            p Taloyhtiön palvelut
+            p Kirjautuneen käyttäjän henkilökohtaiset toiminnot:
             a(href='/resurssit?toiminto=varaa') Varaa resurssi
-            br
-            a(href='/resurssit?toiminto=muokkaa') Muokkaa resurssia
-            br
-            a(href='/luoresurssi') Luo uusi resurssi
-            br
-            a(href='/aikarakolistaus') Listaa aikaraot
             br
             a(href='/omatvaraukset') Listaa/poista omia varauksiani
             br
-            a(href='/resurssilistaus') Listaa kaikki resurssit (muokkaus&poisto)
+            br
+            p Hallintotoiminnot:
+            a(href='/kaikkivaraukset') Hallitse kaikkia varauksia
+            br 
+            a(href='/luoresurssi') Luo uusi resurssi
+            br
+            a(href='/aikarakolistaus') Hallitse aikarakoja
+            br
+            a(href='/resurssilistaus') Hallitse resursseja
+            br
             br
             a(href='/logout') Kirjaudu ulos
             br

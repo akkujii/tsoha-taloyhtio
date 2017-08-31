@@ -1,15 +1,17 @@
 html
 	include head.pug
 	body
+	div(class='container')
 		h1 Luo uusi käyttäjä
-	form(action='/luokayttaja', method='POST')
-		label(for='nimi') Käyttäjän nimi: 
-		input(type='text' name='nimi' placeholder='esim. Matti Meikäläinen')
-		br
-		label(for=asunto) Asunto: 
-		input(type='text' name='asunto' placeholder='esim. C 64')
-		br
-		label(for=salasana) Salasana: 
-		input(type='text' name='salasana')
-		br
-		input(type='submit' value='Luo käyttäjä')
+		form(action='/luokayttaja', method='POST')
+			label(for='nimi') Käyttäjän nimi: 
+			input(type='text' name='nimi' placeholder='esim. Matti Meikäläinen')
+			br
+			label(for=asunto) Asunto: 
+			input(type='text' name='asunto' placeholder='esim. C 64')
+			br
+			label(for=salasana) Salasana: 
+			input(type='text' name='salasana')
+			br
+			input(type='submit' value='Luo käyttäjä')
+		a(href='/') Palaa etusivulle
