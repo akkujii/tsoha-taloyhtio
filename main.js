@@ -16,25 +16,25 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
 
 var auth = function(req, res, next) {
-	if(req.session) {
-		dbc.tarkistaKayttajatunnusJaOikeus(req.session.user, req.session.kayttooikeus, function(err, oikeus) {
-			if(oikeus) {
-				console.log('[auth] if-haara: oikeus sai arvon: ' + oikeus)
-				return next()
-			}else{
-				console.log('[auth] else-haara: oikeus sai arvon: ' + oikeus)
-				return res.send('Ei pääsyä (401) Sinun tulee olla kirjautunut järjestelmään')
-			}
-		})	
-
-	}else if(req.session.user == 'undefined'){
-		console.log('[auth] else-haara: oikeus sai arvon: ' + oikeus)
-		return res.send('Ei pääsyä (401) Sinun tulee olla kirjautunut järjestelmään')
-	}	
+	console.log('[auth] tunnistaudutaan käyttäjällä: ' + req.session.user)
+	console.log('[auth] tunnistaudutaan käyttöoikeudella: ' + req.session.kayttooikeus)
+	if(req.session.user == null) {
+		console.log('[auth] käyttäjää ei ole määritelty')
+		return res.render('kirjaudu')
+	}
+	dbc.tarkistaKayttajatunnusJaOikeus(req.session.user, req.session.kayttooikeus, function(err, oikeus) {
+		if(oikeus) {
+			console.log('[auth] if-haara: oikeus sai arvon: ' + oikeus)
+			return next()
+		}else{
+			console.log('[auth] else-haara: oikeus sai arvon: ' + oikeus)
+			return res.render('kirjaudu')
+		}
+	})	
 }
 
-app.get('/', function (req, res) {
- 	res.render('kirjaudu')
+app.get('/', auth, function (req, res) {
+ 	res.render('index')
 })
 
 app.get('/etusivu', auth, function (req, res) {
