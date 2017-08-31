@@ -182,6 +182,14 @@ app.get('/omatvaraukset', auth, function (req, res) {
 
 app.post('/poistavaraus', function (req, res) {
 	console.log('[/poistavaraus] halutaan poistaa varaus: ' + req.body.id);
+	dbc.poistaVaraus(req.body.id, function(err, done) {
+		if(err) {
+			res.send('Poisto-operaatio ei onnistunut')
+		}
+		if(done) {
+			res.send('Varauksen poisto onnistui!')
+		}
+	})
 })
 
 app.get('/resurssi', auth, function (req, res) {
